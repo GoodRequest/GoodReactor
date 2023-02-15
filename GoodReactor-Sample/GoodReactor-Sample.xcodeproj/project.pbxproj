@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 5D4A974F299CCA4800DFAEAE /* GoodReactor */; };
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
 		EA51F952299424AA00B14A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA51F950299424AA00B14A7C /* LaunchScreen.storyboard */; };
@@ -20,7 +21,6 @@
 		EA6B6D892994F30E0035186A /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6B6D872994F30E0035186A /* AboutViewModel.swift */; };
 		EA6B6D8A2994F30E0035186A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6B6D882994F30E0035186A /* AboutViewController.swift */; };
 		EA751BBA29969882004016E1 /* MultiLineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA751BB929969882004016E1 /* MultiLineLabel.swift */; };
-		EABE43322994FE6C00EB51BD /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = EABE43312994FE6C00EB51BD /* GoodReactor */; };
 		EABE43342995078800EB51BD /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE43332995078800EB51BD /* ActionButton.swift */; };
 		EABE4336299507C700EB51BD /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE4335299507C700EB51BD /* UIButtonExtensions.swift */; };
 		EABE4338299509C700EB51BD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EABE4337299509C700EB51BD /* Colors.xcassets */; };
@@ -30,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D4A974E299CCA0F00DFAEAE /* GoodReactor */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GoodReactor; path = ..; sourceTree = "<group>"; };
 		EA51F940299424A900B14A7C /* GoodReactor-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GoodReactor-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA51F943299424A900B14A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA51F94E299424AA00B14A7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,7 +45,6 @@
 		EA51F97F2994E04F00B14A7C /* UIControlExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlExtensions.swift; sourceTree = "<group>"; };
 		EA6B6D872994F30E0035186A /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		EA6B6D882994F30E0035186A /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		EA6B6D8C2994F8DF0035186A /* .. */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ..; sourceTree = "<group>"; };
 		EA751BB929969882004016E1 /* MultiLineLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineLabel.swift; sourceTree = "<group>"; };
 		EABE43332995078800EB51BD /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		EABE4335299507C700EB51BD /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
@@ -59,13 +59,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EABE43322994FE6C00EB51BD /* GoodReactor in Frameworks */,
+				5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D4A974D299CCA0F00DFAEAE /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				5D4A974E299CCA0F00DFAEAE /* GoodReactor */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		EA282A7E2994FA5E00D0D1E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,7 +84,7 @@
 		EA51F937299424A900B14A7C = {
 			isa = PBXGroup;
 			children = (
-				EA6B6D8C2994F8DF0035186A /* .. */,
+				5D4A974D299CCA0F00DFAEAE /* Packages */,
 				EA51F942299424A900B14A7C /* GoodReactor-Sample */,
 				EA51F941299424A900B14A7C /* Products */,
 				EA282A7E2994FA5E00D0D1E2 /* Frameworks */,
@@ -231,7 +239,7 @@
 			);
 			name = "GoodReactor-Sample";
 			packageProductDependencies = (
-				EABE43312994FE6C00EB51BD /* GoodReactor */,
+				5D4A974F299CCA4800DFAEAE /* GoodReactor */,
 			);
 			productName = "GoodReactor-Sample";
 			productReference = EA51F940299424A900B14A7C /* GoodReactor-Sample.app */;
@@ -519,7 +527,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EABE43312994FE6C00EB51BD /* GoodReactor */ = {
+		5D4A974F299CCA4800DFAEAE /* GoodReactor */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodReactor;
 		};
