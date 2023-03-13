@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 import CombineExt
-import UIKit
+import SwiftUI
 
 ///GoodCoordinator is used for managing navigation flow and data flow between different parts of an app.
 ///It is a generic class that takes a Step type as its generic parameter.
@@ -61,8 +61,10 @@ private enum MapTables {
 
 }
 
+/// The `GoodReactor` is responsible for managing the view's state, as well as handling user actions and application navigation.
+/// Defines a set of methods and properties that allow  specify how the application state changes in response to user actions.
 @available(iOS 13.0, *)
-public protocol GoodReactor: AnyObject {
+public protocol GoodReactor: AnyObject, ObservableObject {
 
     /// An action represents user actions.
     associatedtype Action
@@ -130,11 +132,15 @@ private var stubKey = "stub"
 // MARK: - Default Implementations
 
 @available(iOS 13.0, *)
-public extension GoodReactor {
+public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableObjectPublisher {
 
-    internal(set) var currentState: State {
+    var currentState: State {
         get { MapTables.currentState.forceCastedValue(forKey: self, default: initialState) }
-        set { MapTables.currentState.setValue(newValue, forKey: self) }
+        set {
+            objectWillChange.send()
+            MapTables.currentState.setValue(newValue, forKey: self)
+
+        }
     }
 
     private var _state: AnyPublisher<State, Never> {
@@ -159,6 +165,16 @@ public extension GoodReactor {
         set { MapTables.cancellables.setValue(newValue, forKey: self) }
     }
 
+    /// Initializes the reactive state of the `GoodReactor` instance and begins the reactive flow.
+    /// - Note: This method should be called within the `init()` method of the `GoodReactor` instance.
+    func start() {
+        _ = self.state
+    }
+
+    /// Creates a publisher that emits the current state and then updates the state with new mutations from actions.
+    /// The publisher will always emit at least one value: the `initial` state of the store.
+    ///
+    /// - Returns: A publisher that emits the current state and any subsequent state changes.
     func createStateStream() -> AnyPublisher<State, Never> {
         let action = self.actionPublisher.receive(on: DispatchQueue.main).eraseToAnyPublisher()
 
@@ -168,7 +184,7 @@ public extension GoodReactor {
                 if let step = self.navigate(action: action) {
                     self.coordinator.step = step
                 }
-                return self.mutate(action: action).catch { _ in Empty() }.eraseToAnyPublisher()
+                return self.mutate(action: action).eraseToAnyPublisher()
             }
         .eraseToAnyPublisher()
 
@@ -178,7 +194,6 @@ public extension GoodReactor {
                 guard let `self` = self else { return state }
                 return self.reduce(state: state, mutation: mutation)
             }
-            .catch { _ in Empty<Self.State, Never>().eraseToAnyPublisher() }
             .prepend(self.initialState)
             .eraseToAnyPublisher()
 
@@ -215,8 +230,81 @@ public extension GoodReactor {
         return state
     }
 
-    func send(event: Action) {
-        action.send(event)
+    /// Sends an action to the `action` publisher.
+    /// This function is used to trigger a state update in the app by sending an action that corresponds to a specific user interaction or event.
+    /// - Parameter action: The action to be sent to the `action` publisher.
+    func send(action: Action) {
+        self.action.send(action)
+    }
+
+    /// This function is used to trigger a state update in the app by sending an action that corresponds to a specific user interaction or event,
+    /// while also waiting for a specific state condition to be met.
+    /// The `while` closure is used to check the state at every update and determine whether the task should continue to wait or resume.
+    /// - Parameters:
+    ///   - action: The action to be sent to the `action` publisher.
+    ///   - while: A closure that takes a `State` argument and returns a `Bool`. The task will continue to wait while this closure returns `true` for the current state.
+    /// - Note: This function is asynchronous and should be called with the `await` keyword.
+    func send(action: Action, `while`: @escaping (State) -> Bool) async {
+        self.send(action: action)
+
+        await withCheckedContinuation { [weak self] (continuation: CheckedContinuation<Void, Never>) in
+            var cancelled = false
+            self?.state
+                .dropFirst()
+                .filter { !`while`($0) }
+                .subscribe(on: DispatchQueue.main)
+                .handleEvents(receiveCancel: {
+                    if !cancelled {
+                        continuation.resume()
+                    }
+                })
+                .prefix(1)
+                .sink { _ in
+                    continuation.resume()
+                    cancelled = true
+                }
+                .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - Binding
+
+    /// Returns a binding to a local state derived from the global state and an action to send the local state to the view.
+    /// - Parameters:
+    ///   - get: A closure that projects the global state to a local state.
+    ///   - localStateToViewAction: A closure that takes the local state as input and returns the action to send it to the view.
+    /// - Returns: A binding to the local state.
+    func binding<LocalState>(
+        get: @escaping (State) -> LocalState,
+        send localStateToViewAction: @escaping (LocalState) -> Action
+    ) -> Binding<LocalState> {
+        ObservedObject(wrappedValue: self)
+            .projectedValue[get: .init(rawValue: get), send: .init(rawValue: localStateToViewAction)]
+    }
+
+    /// Returns a binding to a local state derived from the global state and a given action to send to the view.
+    /// - Parameters:
+    ///   - get: A closure that projects the global state to a local state.
+    ///   - action: The action to send to the view when the local state changes.
+    /// - Returns: A binding to the local state.
+    func binding<LocalState>(
+        get: @escaping (State) -> LocalState,
+        send action: Action
+    ) -> Binding<LocalState> {
+        self.binding(get: get, send: { _ in action })
+    }
+
+    /// Subscript that allows getting and setting a local state derived from the global state, and sending an action to the view.
+    /// - Parameters:
+    ///   - state: A hashable wrapper containing a closure that projects the global state to a local state.
+    ///   - action: A hashable wrapper containing a closure that takes the local state as input and returns the action to send it to the view.
+    /// - Returns: The local state.
+    private subscript<LocalState>(
+        get state: HashableWrapper<(State) -> LocalState>,
+        send action: HashableWrapper<(LocalState) -> Action>
+    ) -> LocalState {
+        get { state.rawValue(self.currentState) }
+        set { self.send(action: action.rawValue(newValue)) }
     }
 
 }
@@ -227,5 +315,15 @@ extension GoodReactor where Action == Mutation {
     func mutate(action: Action) -> AnyPublisher<Mutation, Never> {
         return Just(action).eraseToAnyPublisher()
     }
+
+}
+
+/// A generic struct that wraps a value and conforms to the `Hashable` protocol.
+/// - Parameter Value: The generic type of the value being wrapped.
+private struct HashableWrapper<Value>: Hashable {
+
+    let rawValue: Value
+    static func == (lhs: Self, rhs: Self) -> Bool { false }
+    func hash(into hasher: inout Hasher) {}
 
 }
