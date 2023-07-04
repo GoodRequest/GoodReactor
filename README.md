@@ -1,3 +1,5 @@
+![Logo](good-reactor.png)
+ 
 # GoodReactor
 
 [Check out the Documentation](https://goodrequest.github.io/GoodReactor/documentation/goodreactor/)
@@ -15,7 +17,6 @@ Viewmodel changes state in the Reduce function
 Viewmodel interactes with dependencies outside of the Reduce function not to create side-effects
 
 Link to the original reactor kit: https://github.com/ReactorKit/ReactorKit
-
 
 # Installation
 ## Swift Package Manager
