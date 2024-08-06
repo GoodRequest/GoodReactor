@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -26,10 +26,13 @@ let package = Package(
             dependencies: [
                 .product(name: "CombineExt", package: "CombineExt")
             ],
-            path: "./Sources/GoodReactor"
+            path: "./Sources/GoodReactor",
+            swiftSettings: [.swiftLanguageVersion(.v6)]
         ),
         .testTarget(
             name: "GoodReactorTests",
-            dependencies: ["GoodReactor"]),
+            dependencies: ["GoodReactor"],
+            swiftSettings: [.swiftLanguageVersion(.v6)]
+        )
     ]
 )

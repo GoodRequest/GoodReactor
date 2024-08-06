@@ -10,7 +10,7 @@ import Combine
 
 extension UIControl {
 
-    class InteractionSubscription<S: Subscriber>: Subscription where S.Input == Void {
+    @MainActor class InteractionSubscription<S: Subscriber>: Subscription where S.Input == Void {
 
         private let subscriber: S?
         private let control: UIControl
@@ -28,12 +28,12 @@ extension UIControl {
             _ = self.subscriber?.receive(())
         }
 
-        func request(_ demand: Subscribers.Demand) {}
+        nonisolated func request(_ demand: Subscribers.Demand) {}
 
-        func cancel() {}
+        nonisolated func cancel() {}
     }
 
-    struct InteractionPublisher: Publisher {
+    struct InteractionPublisher: @preconcurrency Publisher {
 
         typealias Output = Void
         typealias Failure = Never
@@ -46,7 +46,7 @@ extension UIControl {
             self.event = event
         }
 
-        func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Void == S.Input {
+        @MainActor func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Void == S.Input {
             let subscription = InteractionSubscription(
                 subscriber: subscriber,
                 control: control,

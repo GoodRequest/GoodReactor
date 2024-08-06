@@ -43,6 +43,7 @@ enum StepAction {
 
 }
 
+@MainActor
 class Coordinator<Step>: GoodCoordinator<Step> {
 
     @discardableResult
