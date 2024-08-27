@@ -3,10 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0908A6462C91C0B10035A749 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 0908A6452C91C0B10035A749 /* GoodCoordinator */; };
+		092188C22C8CD57900C6085A /* NewReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 092188C12C8CD57900C6085A /* NewReactor */; };
+		099D61632C8211B500B86922 /* NewReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61622C8211B500B86922 /* NewReactor */; };
+		099D61702C83447900B86922 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 099D616F2C83447900B86922 /* GoodCoordinator */; };
+		099D61732C8472D300B86922 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61722C8472D300B86922 /* GoodNetworking */; };
+		099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617C2C84A3CC00B86922 /* RandomNumber.swift */; };
+		099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */; };
 		5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 5D4A974F299CCA4800DFAEAE /* GoodReactor */; };
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
@@ -30,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "goodreactor-swiftui-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		099D617C2C84A3CC00B86922 /* RandomNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumber.swift; sourceTree = "<group>"; };
+		099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGEndpoint.swift; sourceTree = "<group>"; };
 		5D4A974E299CCA0F00DFAEAE /* GoodReactor */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GoodReactor; path = ..; sourceTree = "<group>"; };
 		EA51F940299424A900B14A7C /* GoodReactor-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GoodReactor-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA51F943299424A900B14A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,18 +64,43 @@
 		EACEC3EB299524AB008242AA /* UINavigationBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		092188B12C8CD2A100C6085A /* goodreactor-swiftui-sample */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "goodreactor-swiftui-sample"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		092188AD2C8CD2A100C6085A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0908A6462C91C0B10035A749 /* GoodCoordinator in Frameworks */,
+				092188C22C8CD57900C6085A /* NewReactor in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA51F93D299424A900B14A7C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099D61702C83447900B86922 /* GoodCoordinator in Frameworks */,
+				099D61632C8211B500B86922 /* NewReactor in Frameworks */,
 				5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */,
+				099D61732C8472D300B86922 /* GoodNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		099D617E2C84A3CC00B86922 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				099D617C2C84A3CC00B86922 /* RandomNumber.swift */,
+				099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		5D4A974D299CCA0F00DFAEAE /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +121,7 @@
 			children = (
 				5D4A974D299CCA0F00DFAEAE /* Packages */,
 				EA51F942299424A900B14A7C /* GoodReactor-Sample */,
+				092188B12C8CD2A100C6085A /* goodreactor-swiftui-sample */,
 				EA51F941299424A900B14A7C /* Products */,
 				EA282A7E2994FA5E00D0D1E2 /* Frameworks */,
 			);
@@ -95,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				EA51F940299424A900B14A7C /* GoodReactor-Sample.app */,
+				092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,6 +141,7 @@
 			children = (
 				EA51F95D299425A600B14A7C /* Application */,
 				EA751BAF29964F24004016E1 /* Helpers */,
+				099D617E2C84A3CC00B86922 /* Models */,
 				EA51F97E2994E03700B14A7C /* Extensions */,
 				EA51F95E29942B1300B14A7C /* Coordinators */,
 				EA51F96529942B9400B14A7C /* Screens */,
@@ -225,6 +263,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		092188AF2C8CD2A100C6085A /* goodreactor-swiftui-sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 092188BD2C8CD2A200C6085A /* Build configuration list for PBXNativeTarget "goodreactor-swiftui-sample" */;
+			buildPhases = (
+				092188AC2C8CD2A100C6085A /* Sources */,
+				092188AD2C8CD2A100C6085A /* Frameworks */,
+				092188AE2C8CD2A100C6085A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				092188B12C8CD2A100C6085A /* goodreactor-swiftui-sample */,
+			);
+			name = "goodreactor-swiftui-sample";
+			packageProductDependencies = (
+				092188C12C8CD57900C6085A /* NewReactor */,
+				0908A6452C91C0B10035A749 /* GoodCoordinator */,
+			);
+			productName = "goodreactor-swiftui-sample";
+			productReference = 092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		EA51F93F299424A900B14A7C /* GoodReactor-Sample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA51F956299424AA00B14A7C /* Build configuration list for PBXNativeTarget "GoodReactor-Sample" */;
@@ -240,6 +302,9 @@
 			name = "GoodReactor-Sample";
 			packageProductDependencies = (
 				5D4A974F299CCA4800DFAEAE /* GoodReactor */,
+				099D61622C8211B500B86922 /* NewReactor */,
+				099D616F2C83447900B86922 /* GoodCoordinator */,
+				099D61722C8472D300B86922 /* GoodNetworking */,
 			);
 			productName = "GoodReactor-Sample";
 			productReference = EA51F940299424A900B14A7C /* GoodReactor-Sample.app */;
@@ -252,9 +317,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
+					092188AF2C8CD2A100C6085A = {
+						CreatedOnToolsVersion = 16.1;
+					};
 					EA51F93F299424A900B14A7C = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -270,17 +338,27 @@
 			);
 			mainGroup = EA51F937299424A900B14A7C;
 			packageReferences = (
+				099D61712C8472D300B86922 /* XCLocalSwiftPackageReference "../../GoodNetworking" */,
+				0908A6442C91C0B10035A749 /* XCLocalSwiftPackageReference "../../GoodCoordinator-iOS" */,
 			);
 			productRefGroup = EA51F941299424A900B14A7C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				EA51F93F299424A900B14A7C /* GoodReactor-Sample */,
+				092188AF2C8CD2A100C6085A /* goodreactor-swiftui-sample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		092188AE2C8CD2A100C6085A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA51F93E299424A900B14A7C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,6 +372,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		092188AC2C8CD2A100C6085A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA51F93C299424A900B14A7C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +399,8 @@
 				EABE433C2995128400EB51BD /* Constants.swift in Sources */,
 				EA6B6D8A2994F30E0035186A /* AboutViewController.swift in Sources */,
 				EA6B6D892994F30E0035186A /* AboutViewModel.swift in Sources */,
+				099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */,
+				099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +418,73 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		092188BB2C8CD2A200C6085A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FFZN8CA2AB;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.goodrequest.goodreactor-swiftui-sample";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		092188BC2C8CD2A200C6085A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FFZN8CA2AB;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.goodrequest.goodreactor-swiftui-sample";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		EA51F954299424AA00B14A7C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -452,6 +606,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FFZN8CA2AB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "GoodReactor-Sample/Application/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -481,6 +636,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FFZN8CA2AB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "GoodReactor-Sample/Application/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -506,6 +662,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		092188BD2C8CD2A200C6085A /* Build configuration list for PBXNativeTarget "goodreactor-swiftui-sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				092188BB2C8CD2A200C6085A /* Debug */,
+				092188BC2C8CD2A200C6085A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EA51F93B299424A900B14A7C /* Build configuration list for PBXProject "GoodReactor-Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -526,7 +691,38 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0908A6442C91C0B10035A749 /* XCLocalSwiftPackageReference "../../GoodCoordinator-iOS" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../GoodCoordinator-iOS";
+		};
+		099D61712C8472D300B86922 /* XCLocalSwiftPackageReference "../../GoodNetworking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../GoodNetworking;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		0908A6452C91C0B10035A749 /* GoodCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoodCoordinator;
+		};
+		092188C12C8CD57900C6085A /* NewReactor */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NewReactor;
+		};
+		099D61622C8211B500B86922 /* NewReactor */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NewReactor;
+		};
+		099D616F2C83447900B86922 /* GoodCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoodCoordinator;
+		};
+		099D61722C8472D300B86922 /* GoodNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoodNetworking;
+		};
 		5D4A974F299CCA4800DFAEAE /* GoodReactor */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodReactor;

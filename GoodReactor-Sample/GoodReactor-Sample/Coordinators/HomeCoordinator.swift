@@ -5,7 +5,7 @@
 //  Created by GoodRequest on 08/02/2023.
 //
 
-import UIKit
+import SwiftUI
 
 enum HomeStep {
 
@@ -46,9 +46,8 @@ class HomeCoordinator: Coordinator<AppStep> {
             let aboutViewController = AboutCoordinator(
                 rootViewController: rootViewController,
                 parentCoordinator: self
-            )
-                .start()
-            
+            ).start()
+
             return .push(aboutViewController)
         }
     }

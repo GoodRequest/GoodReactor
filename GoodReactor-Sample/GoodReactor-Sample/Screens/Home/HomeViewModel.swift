@@ -1,4 +1,4 @@
-// 
+//
 //  HomeViewModel.swift
 //  GoodReactor-Sample
 //
@@ -9,6 +9,7 @@ import Combine
 import GoodReactor
 
 final class HomeViewModel: GoodReactor {
+
 
     // MARK: - Enums
 
@@ -21,8 +22,8 @@ final class HomeViewModel: GoodReactor {
 
     enum Action {
 
-        case updateCounterValue(CounterMode)
         case goToAbout
+        case updateCounterValue(CounterMode)
 
     }
 

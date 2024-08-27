@@ -1,6 +1,5 @@
 import XCTest
 import GoodReactor
-import UIKit
 
 final class GoodCoordinatorTests: XCTestCase {
 

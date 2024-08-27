@@ -53,10 +53,10 @@ open class GoodCoordinator<Step>: NSObject {
 @available(iOS 13.0, *)
 private enum MapTables {
 
-    nonisolated(unsafe) static let cancellables = WeakMapTable<AnyObject, Set<AnyCancellable>>()
-    nonisolated(unsafe) static let currentState = WeakMapTable<AnyObject, Any>()
-    nonisolated(unsafe) static let action = WeakMapTable<AnyObject, AnyObject>()
-    nonisolated(unsafe) static let state = WeakMapTable<AnyObject, AnyObject>()
+    static let cancellables = WeakMapTable<AnyObject, Set<AnyCancellable>>()
+    static let currentState = WeakMapTable<AnyObject, Any>()
+    static let action = WeakMapTable<AnyObject, AnyObject>()
+    static let state = WeakMapTable<AnyObject, AnyObject>()
 
 }
 
@@ -138,7 +138,6 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
         set {
             objectWillChange.send()
             MapTables.currentState.setValue(newValue, forKey: self)
-
         }
     }
 
