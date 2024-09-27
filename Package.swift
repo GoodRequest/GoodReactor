@@ -15,8 +15,8 @@ let package = Package(
             targets: ["GoodReactor"]
         ),
         .library(
-            name: "NewReactor",
-            targets: ["NewReactor"]
+            name: "LegacyReactor",
+            targets: ["LegacyReactor"]
         )
     ],
     dependencies: [
@@ -29,29 +29,24 @@ let package = Package(
         .target(
             name: "GoodReactor",
             dependencies: [
-                .product(name: "CombineExt", package: "CombineExt")
+                .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
+                .product(name: "Collections", package: "swift-collections"),
+                .product(name: "GoodLogger", package: "GoodLogger")
             ],
             path: "./Sources/GoodReactor",
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .target(
-            name: "NewReactor",
+            name: "LegacyReactor",
             dependencies: [
-                .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
-                .product(name: "Collections", package: "swift-collections"),
-                .product(name: "GoodLogger", package: "GoodLogger")
+                .product(name: "CombineExt", package: "CombineExt")
             ],
-            path: "./Sources/NewReactor",
+            path: "./Sources/LegacyReactor",
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(
             name: "GoodReactorTests",
             dependencies: ["GoodReactor"],
-            swiftSettings: [.swiftLanguageMode(.v6)]
-        ),
-        .testTarget(
-            name: "NewReactorTests",
-            dependencies: ["NewReactor"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         )
     ]

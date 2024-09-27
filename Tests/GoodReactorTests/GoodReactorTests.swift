@@ -1,58 +1,69 @@
+//
+//  GoodReactorTests.swift
+//  GoodReactor
+//
+//  Created by Filip Šašala on 23/08/2024.
+//
+
 import XCTest
-import GoodReactor
+@testable import GoodReactor
+import Combine
 
-final class GoodCoordinatorTests: XCTestCase {
+@available(iOS 17.0, macOS 14.0, *)
+final class GoodReactorTests: XCTestCase {
 
-    func testGoodCoordinatorParent() {
-        let firstCoordinator = FirstCoordinator(parentCoordinator: nil)
-        let secondCoordinator = SecondCoordinator(parentCoordinator: firstCoordinator)
-        let thirdCoordinator = ThirdCoordinator(parentCoordinator: secondCoordinator)
-        let fourthCoordinator = FourthCoordinator(parentCoordinator: thirdCoordinator)
+    @MainActor func testSendAction() {
+        let model = ObservableModel()
 
-        XCTAssert(fourthCoordinator.firstCoordinatorOfType(type: ThirdCoordinator.self) == thirdCoordinator)
-        XCTAssert(fourthCoordinator.firstCoordinatorOfType(type: SecondCoordinator.self) == secondCoordinator)
-        XCTAssert(fourthCoordinator.lastCoordinatorOfType(type: FirstCoordinator.self) == firstCoordinator)
+        model.send(action: .addOne)
+
+        XCTAssertEqual(model.initialState.counter, 9, "Initial state mutated")
+        XCTAssertEqual(model.state.counter, 10, "Sending action failed")
     }
 
-    func testFirstCoordinatorParent() {
-        // When
-        let firstCoordinator = FirstCoordinator()
-        let secondCoordinator = SecondCoordinator(parentCoordinator: firstCoordinator)
-        let thirdCoordinator = ThirdCoordinator(parentCoordinator: secondCoordinator)
-        let secondSecondCoordinator = SecondCoordinator(parentCoordinator: thirdCoordinator)
-        let lastCoordinator = FourthCoordinator(parentCoordinator: secondSecondCoordinator)
+    @MainActor func testInitialState() {
+        let model = ObservableModel()
 
-        // Then
-        XCTAssert(lastCoordinator.firstCoordinatorOfType(type: FirstCoordinator.self) === firstCoordinator)
-        XCTAssert(lastCoordinator.firstCoordinatorOfType(type: SecondCoordinator.self) === secondSecondCoordinator)
-        XCTAssert(lastCoordinator.firstCoordinatorOfType(type: FourthCoordinator.self) === lastCoordinator)
-        XCTAssertFalse(lastCoordinator.firstCoordinatorOfType(type: SecondCoordinator.self) === secondCoordinator)
+        XCTAssertEqual(model.initialState.counter, 9, "Invalid initial state")
+        XCTAssertEqual(model.state.counter, 9, "Invalid initial state")
+
+        XCTAssertNotIdentical(model.state, model.initialState, "Initial state is NOT A COPY but a reference!")
+        XCTAssertNotIdentical(model.state.object, model.initialState.object, "Current state has a reference to initial state with possible mutations!")
     }
 
-    func testLastCoordinatorParent() {
-        // When
-        let firstCoordinator = FirstCoordinator()
-        let secondCoordinator = SecondCoordinator(parentCoordinator: firstCoordinator)
-        let thirdCoordinator = ThirdCoordinator(parentCoordinator: secondCoordinator)
-        let secondSecondCoordinator = SecondCoordinator(parentCoordinator: thirdCoordinator)
-        let lastCoordinator = FourthCoordinator(parentCoordinator: secondSecondCoordinator)
+    @MainActor func testActionMutation() async throws {
+        let model = ObservableModel()
 
-        // Then
-        XCTAssert(lastCoordinator.lastCoordinatorOfType(type: FourthCoordinator.self) === lastCoordinator)
-        XCTAssert(lastCoordinator.lastCoordinatorOfType(type: SecondCoordinator.self) === secondCoordinator)
-        XCTAssert(lastCoordinator.lastCoordinatorOfType(type: FirstCoordinator.self) === firstCoordinator)
-        XCTAssertFalse(lastCoordinator.lastCoordinatorOfType(type: SecondCoordinator.self) === secondSecondCoordinator)
+        XCTAssertEqual(model.state.counter, 9)
+
+        let expectation = XCTestExpectation()
+        Task {
+            await model.send(action: .resetToZero)
+            XCTAssertEqual(model.state.counter, 0, "Reset to zero failed")
+            expectation.fulfill()
+        }
+
+        XCTAssertEqual(model.state.counter, 9, "State mutated immediately")
+
+        await fulfillment(of: [expectation], timeout: 3)
+
+        XCTAssertEqual(model.state.counter, 0, "State did not mutate properly")
+    }
+
+    @MainActor func testLegacyModel() {
+        let model = LegacyModel()
+
+        let expectation = XCTestExpectation(description: "Change notification was sent")
+
+        let cancellable = model.objectWillChange.sink {
+            expectation.fulfill()
+        }
+
+        model.send(action: .addOne)
+
+        XCTAssertEqual(model.state.counter, 10)
+        wait(for: [expectation], timeout: 3)
+        withExtendedLifetime(cancellable, {})
     }
 
 }
-
-enum Steps {
-
-    case firstStep
-
-}
-
-class FirstCoordinator: GoodCoordinator<Steps> {}
-class SecondCoordinator: GoodCoordinator<Steps> {}
-class ThirdCoordinator: GoodCoordinator<Steps> {}
-class FourthCoordinator: GoodCoordinator<Steps> {}

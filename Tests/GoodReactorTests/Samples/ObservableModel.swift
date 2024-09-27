@@ -5,7 +5,7 @@
 //  Created by Filip Šašala on 30/08/2024.
 //
 
-import NewReactor
+import GoodReactor
 import Observation
 
 final class EmptyObject {}
@@ -13,7 +13,7 @@ final class EmptyObject {}
 // MARK: - Example - Counter model using Observation framework
 
 @available(iOS 17.0, *)
-final class ObservableModel: Reactor {
+@Observable final class ObservableModel: Reactor {
 
     func transform() {
         subscribe {
@@ -23,7 +23,7 @@ final class ObservableModel: Reactor {
         }
     }
 
-    typealias Event = NewReactor.Event<Action, Mutation>
+    typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
     // MARK: Enums
 
@@ -39,6 +39,12 @@ final class ObservableModel: Reactor {
         case didAddOne
         case didReceiveValue(newValue: Int)
     }
+
+    // MARK: Destination
+
+    var destination: Destination?
+
+    enum Destination {}
 
     // MARK: State
 

@@ -1,5 +1,5 @@
 //
-//  NewReactor.swift
+//  Reactor.swift
 //  GoodReactor
 //
 //  Created by Filip Šašala on 23/08/2024.
@@ -139,6 +139,17 @@ import SwiftUI
     func transform()
 
     #if canImport(Combine)
+    /// Creates subscriptions to external events, that supply events to this Reactor.
+    ///
+    /// You override this function to merge your custom publisher chains with
+    /// a provided event publisher (in parameter).
+    /// ```swift
+    /// func transform(event: AnyPublisher<Event.Kind, Never>) -> AnyPublisher<Event.Kind, Never> {
+    ///     return event
+    ///         .merge(with: myCustomPublisher.map { .mutation(.changeValue($0)) }
+    ///         .eraseToAnyPublisher()
+    /// }
+    /// ```
     func transform(event: AnyPublisher<Event.Kind, Never>) -> AnyPublisher<Event.Kind, Never>
     #endif
     
@@ -203,7 +214,7 @@ public extension Reactor {
 
 public extension Reactor {
 
-    typealias Event = NewReactor.Event<Action, Mutation, Destination>
+    typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
     static var logger: GoodLogger {
         MapTables.loggers.forceCastedValue(forKey: self, default: makeLogger())
@@ -330,11 +341,30 @@ public extension Reactor {
             }
         }
     }
-    
-    /// <#Description#>
+
+    /// Create a new subscription to external event publisher for current reactor.
+    ///
+    /// The subscription is stored and kept active until the reactor is deallocated
+    /// or a `finish` event is received.
+    ///
+    ///
+    ///
+    /// ## Usage
+    /// ```swift
+    /// func transform() {
+    ///     subscribe {
+    ///         externalValuePublisher
+    ///     } map: {
+    ///         .changeValue($0)
+    ///     }
+    /// }
+    /// ```
     /// - Parameters:
-    ///   - publisherProvider: <#publisherProvider description#>
-    ///   - mapper: <#mapper description#>
+    ///   - publisherProvider: Resolution of an external publisher of any type of value
+    ///   - mapper: Map function mapping received values to this reactor's Mutations.
+    ///
+    /// - important: Call from the `transform` function. Remember to `start()`
+    /// the reactor to properly initalize the subscriptions.
     func subscribe<Value>(
         to publisherProvider: @escaping @autoclosure () -> @Sendable () async -> Publisher<Value>,
         map mapper: @escaping @autoclosure () -> @Sendable (Value) async -> (Mutation)
@@ -467,16 +497,6 @@ public extension Reactor {
     }
 
 }
-
-// MARK: - CustomStringConvertible
-
-//public extension Reactor {
-//
-//    nonisolated var description: String {
-//        String(describing: Self.self)
-//    }
-//
-//}
 
 // MARK: - Migration
 

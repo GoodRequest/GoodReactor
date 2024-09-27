@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import NewReactor
+import GoodReactor
 
 // MARK: - Example - external dependency
 
@@ -14,7 +14,7 @@ import NewReactor
 final class ExternalTimer: @unchecked Sendable {
 
     @MainActor static let shared = ExternalTimer()
-    let timePublisher = NewReactor.Publisher<Int>()
+    let timePublisher = GoodReactor.Publisher<Int>()
 
     init() {
         Task {

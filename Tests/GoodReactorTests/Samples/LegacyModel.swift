@@ -5,12 +5,11 @@
 //  Created by Filip Šašala on 30/08/2024.
 //
 
-import NewReactor
+import GoodReactor
 import SwiftUI
 
 // MARK: - Example - Counter model using ObservableObject API
 
-@available(iOS 17.0, *)
 final class LegacyModel: Reactor, ObservableObject {
 
     func transform() {
@@ -21,7 +20,7 @@ final class LegacyModel: Reactor, ObservableObject {
         }
     }
 
-    typealias Event = NewReactor.Event<Action, Mutation>
+    typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
     // MARK: Enums
 
@@ -38,9 +37,15 @@ final class LegacyModel: Reactor, ObservableObject {
         case didReceiveValue(newValue: Int)
     }
 
+    // MARK: Destination
+
+    var destination: Destination?
+
+    enum Destination {}
+
     // MARK: State
 
-    struct State: Sendable {
+    struct State {
 
         var counter: Int = 9
         var time: Int = 0
@@ -83,6 +88,9 @@ final class LegacyModel: Reactor, ObservableObject {
 
         case .mutation(.didChangeTime(let seconds)):
             state.time = seconds
+
+        case .destination:
+            break
         }
     }
 
