@@ -112,7 +112,7 @@ private extension HomeViewController {
 private extension HomeViewController {
 
     func bindState(reactor: HomeViewModel) {
-        reactor.stateStream
+        reactor.state
             .map { String($0.counterValue) }
             .removeDuplicates()
             .assign(to: \.text, on: counterValueLabel, ownership: .weak)
@@ -124,16 +124,7 @@ private extension HomeViewController {
             increasingButton.publisher(for: .touchUpInside).map { _ in .updateCounterValue(.increase) },
             decreasingButton.publisher(for: .touchUpInside).map { _ in .updateCounterValue(.decrease) }
         )
-        .map { .action($0) }
-        .subscribe(reactor.eventStream)
-        .store(in: &cancellables)
-
-        Publishers.Merge(
-            aboutAppButton.publisher(for: .touchUpInside).map { _ in .about },
-            swiftUIButton.publisher(for: .touchUpInside).map { _ in .swiftUISample }
-        )
-        .map { .destination($0) }
-        .subscribe(reactor.eventStream)
+        .subscribe(reactor.action)
         .store(in: &cancellables)
     }
 
