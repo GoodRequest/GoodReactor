@@ -5,8 +5,9 @@
 //  Created by GoodRequest on 08/02/2023.
 //
 
-import UIKit
 import Combine
+import UIKit
+import NewReactor
 
 final class HomeViewController: BaseViewController<HomeViewModel>  {
 
@@ -52,6 +53,13 @@ final class HomeViewController: BaseViewController<HomeViewModel>  {
         return aboutAppButton
     }()
 
+    private let swiftUIButton: ActionButton = {
+        let swiftUIButton = ActionButton()
+        swiftUIButton.setTitle(Constants.Texts.Home.swiftUIButton, for: .normal)
+
+        return swiftUIButton
+    }()
+
 }
 
 // MARK: - Lifecycle
@@ -65,6 +73,8 @@ extension HomeViewController {
 
         bindState(reactor: viewModel)
         bindActions(reactor: viewModel)
+
+        viewModel.start()
     }
 
 }
@@ -76,8 +86,10 @@ private extension HomeViewController {
         view.backgroundColor = UIColor(named: "background")
         title = Constants.Texts.Home.title
 
-        [increasingButton, decreasingButton, aboutAppButton].forEach{ actionsStackView.addArrangedSubview($0) }
-        [counterValueLabel, actionsStackView].forEach { view.addSubview($0) }
+        [increasingButton, decreasingButton, aboutAppButton, swiftUIButton]
+            .forEach{ actionsStackView.addArrangedSubview($0) }
+        [counterValueLabel, actionsStackView]
+            .forEach { view.addSubview($0) }
 
         setupConstraints()
     }
@@ -105,14 +117,12 @@ private extension HomeViewController {
             .removeDuplicates()
             .assign(to: \.text, on: counterValueLabel, ownership: .weak)
             .store(in: &cancellables)
-
     }
 
     func bindActions(reactor: HomeViewModel) {
-        Publishers.Merge3(
+        Publishers.Merge(
             increasingButton.publisher(for: .touchUpInside).map { _ in .updateCounterValue(.increase) },
-            decreasingButton.publisher(for: .touchUpInside).map { _ in .updateCounterValue(.decrease) },
-            aboutAppButton.publisher(for: .touchUpInside).map { _ in .goToAbout }
+            decreasingButton.publisher(for: .touchUpInside).map { _ in .updateCounterValue(.decrease) }
         )
         .subscribe(reactor.action)
         .store(in: &cancellables)

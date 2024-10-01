@@ -143,27 +143,27 @@ final public class WeakMapTable<Key, Value>: @unchecked Sendable where Key: AnyO
 
 /// This class is used in the WeakMapTable class as a key in a dictionary to store values, where the keys are weak references to objects of type T.
 /// This allows the values in the dictionary to be automatically removed when the objects they are associated with are deallocated.
-public final class Weak<T>: Hashable where T: AnyObject {
+private final class Weak<T>: Hashable where T: AnyObject {
 
     ///A hash value that is derived from the object's ObjectIdentifier.
     private let objectHashValue: Int
     /// A weak reference to an object of type T.
-    public weak var object: T?
+    weak var object: T?
 
     /// Initialization of class Weak
     /// - Parameter object: the object to be stored as a weak reference
-    public init(_ object: T) {
+    init(_ object: T) {
         self.objectHashValue = ObjectIdentifier(object).hashValue
         self.object = object
     }
 
     /// Combines the objectHashValue into the Hasher instance provided as an argument.
     /// - Parameter hasher: Hasher instance to hash
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(self.objectHashValue)
     }
 
-    public static func == (lhs: Weak<T>, rhs: Weak<T>) -> Bool {
+    static func == (lhs: Weak<T>, rhs: Weak<T>) -> Bool {
         return lhs.objectHashValue == rhs.objectHashValue
     }
 }
@@ -171,23 +171,13 @@ public final class Weak<T>: Hashable where T: AnyObject {
 // MARK: - DeallocHook
 
 /// DeallocHook is a private class that allows you to run a closure when its object is deallocated. It is used in WeakMapTable to handle deallocation of the keys in the table.
-public final class DeallocHook {
+private final class DeallocHook {
 
     /// A closure that will be called when the object is deallocated.
     private let handler: () -> Void
 
-    private var deallocHookKey: Void?
-
-    public init(on object: AnyObject, handler: @escaping () -> Void) {
-        self.handler = handler
-
-        let isInstalled = (objc_getAssociatedObject(object, &deallocHookKey) != nil)
-        guard !isInstalled else { return }
-        objc_setAssociatedObject(object, &deallocHookKey, self, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
-
     ///DeallocHook is initialized with a closure that is to be called when the object is deallocated. The closure is stored in the handler property.
-    public init(handler: @escaping () -> Void) {
+    init(handler: @escaping () -> Void) {
         self.handler = handler
     }
 
@@ -195,19 +185,4 @@ public final class DeallocHook {
     deinit {
         self.handler()
     }
-}
-
-// MARK: - Subscripts
-
-public extension WeakMapTable {
-
-    subscript(key key: Key, default default: @autoclosure () -> Value) -> Value {
-        get {
-            forceCastedValue(forKey: key, default: `default`())
-        }
-        set {
-            setValue(newValue, forKey: key)
-        }
-    }
-
 }

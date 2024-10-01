@@ -1,6 +1,5 @@
 //
-//  Reactor.swift
-//  Gopass
+//  GoodReactor.swift
 //
 //  Created by Dominik Pethö on 8/13/20.
 //  Copyright © 2020 GoodRequest. All rights reserved.
@@ -121,13 +120,13 @@ public protocol GoodReactor: AnyObject, ObservableObject {
 
 // MARK: - Associated Object Keys
 
-private var configKey = "config"
-private var actionKey = "action"
-private var currentStateKey = "currentState"
-private var stateKey = "state"
-private var cancellablesKey = "cancellables"
-private var isStubEnabledKey = "isStubEnabled"
-private var stubKey = "stub"
+nonisolated(unsafe) private var configKey = "config"
+nonisolated(unsafe) private var actionKey = "action"
+nonisolated(unsafe) private var currentStateKey = "currentState"
+nonisolated(unsafe) private var stateKey = "state"
+nonisolated(unsafe) private var cancellablesKey = "cancellables"
+nonisolated(unsafe) private var isStubEnabledKey = "isStubEnabled"
+nonisolated(unsafe) private var stubKey = "stub"
 
 // MARK: - Default Implementations
 
@@ -139,7 +138,6 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
         set {
             objectWillChange.send()
             MapTables.currentState.setValue(newValue, forKey: self)
-
         }
     }
 
@@ -248,8 +246,10 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
         self.send(action: action)
 
         await withCheckedContinuation { [weak self] (continuation: CheckedContinuation<Void, Never>) in
+            guard let self = self else { return }
+
             var cancelled = false
-            self?.state
+            self.state
                 .dropFirst()
                 .filter { !`while`($0) }
                 .subscribe(on: DispatchQueue.main)
@@ -263,7 +263,7 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
                     continuation.resume()
                     cancelled = true
                 }
-                .store(in: &cancellables)
+                .store(in: &self.cancellables)
         }
     }
 
@@ -274,7 +274,7 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
     ///   - get: A closure that projects the global state to a local state.
     ///   - localStateToViewAction: A closure that takes the local state as input and returns the action to send it to the view.
     /// - Returns: A binding to the local state.
-    func binding<LocalState>(
+    @MainActor func binding<LocalState>(
         get: @escaping (State) -> LocalState,
         send localStateToViewAction: @escaping (LocalState) -> Action
     ) -> Binding<LocalState> {
@@ -287,7 +287,7 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
     ///   - get: A closure that projects the global state to a local state.
     ///   - action: The action to send to the view when the local state changes.
     /// - Returns: A binding to the local state.
-    func binding<LocalState>(
+    @MainActor func binding<LocalState>(
         get: @escaping (State) -> LocalState,
         send action: Action
     ) -> Binding<LocalState> {

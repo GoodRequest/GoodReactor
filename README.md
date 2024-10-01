@@ -25,13 +25,12 @@ Create a `Package.swift` file and add the package dependency into the dependenci
 Or to integrate without package.swift add it through the Xcode add package interface.
 
 ```swift
-
 import PackageDescription
 
 let package = Package(
     name: "SampleProject",
     dependencies: [
-        .Package(url: "https://github.com/GoodRequest/GoodReactor" from: "addVersion")
+        .package(url: "https://github.com/GoodRequest/GoodReactor" .upToNextMajor("2.0.0"))
     ]
 )
 
@@ -41,102 +40,143 @@ let package = Package(
 ## GoodReactor
 
 ### ViewModel
-In your ViewModel define State, Actions and Mutations
+In your ViewModel define Actions, Mutations, Destinations and the State
 
-- State defines all data that you work with
-- Action user actions that are sent from the ViewController.
-- Mutation represents state changes.
+- State defines all data of a View (or a ViewController)
+- Action represents user actions that are sent from the View.
+- Mutation represents state changes from external sources.
+- Destination represents all possible destinations, where user can navigate.
 
 ```swift
-    struct State {
-
-        var counterValue: Int
-
-    }
-
+@Observable final class ViewModel: Reactor {
     enum Action {
-
-        case updateCounterValue(CounterMode)
-        case goToAbout
-
+        case login(username: String, password: String)
     }
 
     enum Mutation {
-
-        case counterValueUpdated(Int)
-
+        case didReceiveAuthResponse(Credentials)
     }
-```
 
-In the `mutate` function define what will happen when certain actions are called:
+    enum Destination {
+        case homeScreen
+        case errorAlert
+    }
 
-```swift
-func mutate(action: Action) -> AnyPublisher<Mutation, Never> {
-    switch action {
-        case .updateCounterValue(let mode):
-        return updateCounter(mode: mode)
-        }
+    @Observable final class State {
+        var username: String
+        var password: String
+    }
 }
-    
-func updateCounter(mode: CounterMode) -> AnyPublisher<Mutation,Never> {
-    var actualValue = currentState.counterValue
-
-    switch mode {
-        case .increase:
-        actualValue += 1
-
-        case .decrease:
-        actualValue -= 1
-    }
-
-    return Just(.counterValueUpdated(actualValue)).eraseToAnyPublisher()
-}
-
 ```
 
-Finally in the `reduce` function define `state` changes according to certain `mutation`:
-```swift
-    func reduce(state: State, mutation: Mutation) -> State {
-        var state = state
+You can provide the initial state of the view in the `makeInitialState` function.
 
-        switch mutation {
-        case .counterValueUpdated(let newValue):
-            state.counterValue = newValue
+```swift
+func makeInitialState() -> State {
+    return State()
+}
+```
+
+Finally in the `reduce` function you define how `state` changes, according to certain `event`s:
+
+```swift
+typealias Event = NewReactor.Event<Action, Mutation, Destination>
+
+func reduce(state: inout State, event: Event) {
+    switch event.kind {
+    case .action(.login(...)):
+        // ...
+
+    case .mutation:
+        // ...
+
+    case .destination:
+        // ...
+    }
+}
+```
+
+You can run asynchronous tasks by using `run` and returning the result in form of a `Mutation`.
+
+```swift
+func reduce(state: inout State, event: Event) {
+    switch event.kind {
+    case .action(.login(let username, let password)):
+        run(event) {
+            let credentials = await networking.login(username, password)
+            return Mutation.didReceiveAuthResponse(credentials)
         }
 
-        return state
+    // ...
+
+    case .mutation(.didReceiveAuthResponse(let credentials)):
+        // proceed with login
     }
+}
 ```
 
-### ViewController
+You can listen to external changes by `subscribe`-ing to event `Publisher`-s.
+You start the subscriptions by calling the `start()` function.
 
-From `ViewController` you can send actions to `ViewModel` via Combine just like in our `GoodReactor-Sample` or like this:
 ```swift
-viewModel.send(event: yourAction)
+// in ViewModel:
+func transform() {
+    subscribe {
+        await ExternalTimer.shared.timePublisher
+    } map: {
+        Mutation.didChangeTime(seconds: $0)
+    }
+}
+
+// in View (SwiftUI):
+var body: some View {
+    MyContentView()
+        .task { viewModel.start() }
+}
 ```
 
-Then use combine to subscribe to state changes, so every time the state is changed, ViewController is updated as well:
+### View (SwiftUI)
+
+You add the ViewModel as a property wrapper to your view:
+
 ```swift
-viewModel.state
-    .map { String($0.counterValue) }
-    .removeDuplicates()
-    .assign(to: \.text, on: counterValueLabel, ownership: .weak)
+@ViewModel private var model = MyViewModel()
+```
+
+To access the current `State` you use:
+
+```swift
+// read-only access
+Text(model.username)
+
+// binding (refactored to a variable for better readability)
+let binding = model.bind(\.username, action: { .setUsername($0) })
+TextField("Username",  text: binding)
+```
+
+To send an event to the ViewModel you call:
+
+```swift
+model.send(action: .login(username, password))
+model.send(destination: .errorAlert)
+```
+
+### UIViewController (UIKit/Combine)
+
+From `UIViewController` (in UIKit, or any other frameworks) you can send actions to ViewModel via Combine:
+```swift
+myButton.publisher(for: .touchUpInside).map { _ in .login(username, password) }
+    .map { .action($0) }
+    .subscribe(model.eventStream)
     .store(in: &cancellables)
-
 ```
 
-## GoodCoordinator
-When viewModel's action is called, navigation function is called as well. There you can hande the app flow, for example:
+Then use Combine to subscribe to state changes, so every time the state is changed, ViewController can be updated as well:
 ```swift
-func navigate(action: Action) -> AppStep? {
-    switch action {
-        case .goToAbout:
-        return .home(.goToAbout)
-
-        default:
-        return .none
-    }
-}
+reactor.stateStream
+    .map { String($0.username) }
+    .assign(to: \.text, on: usernameLabel, ownership: .weak)
+    .store(in: &cancellables)
 ```
 
 # License

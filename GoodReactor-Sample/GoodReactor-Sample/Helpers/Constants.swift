@@ -40,6 +40,7 @@ struct Constants {
             static let increase = "Increase counter"
             static let decrease = "Decrease counter"
             static let aboutApp = "About app"
+            static let swiftUIButton = "SwiftUI preview"
 
         }
 
