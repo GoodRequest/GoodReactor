@@ -5,7 +5,7 @@
 //  Created by Filip Šašala on 24/09/2024.
 //
 
-import NewReactor
+import GoodReactor
 import GoodCoordinator
 import SwiftUI
 

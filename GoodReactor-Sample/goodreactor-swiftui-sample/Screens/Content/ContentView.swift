@@ -6,7 +6,7 @@
 //
 
 import GoodCoordinator
-import NewReactor
+import GoodReactor
 import SwiftUI
 
 struct ContentView: View {

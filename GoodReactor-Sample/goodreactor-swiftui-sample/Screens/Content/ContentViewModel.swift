@@ -6,13 +6,13 @@
 //
 
 import GoodCoordinator
-import NewReactor
+import GoodReactor
 import Observation
 import SwiftUI
 
 @Observable final class ContentViewModel: Reactor {
 
-    typealias Event = NewReactor.Event<Action, Mutation, Destination>
+    typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
     enum Action {
 

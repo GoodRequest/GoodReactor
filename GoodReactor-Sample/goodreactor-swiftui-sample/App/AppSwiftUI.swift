@@ -6,7 +6,7 @@
 //
 
 import GoodCoordinator
-import NewReactor
+import GoodReactor
 import SwiftUI
 
 @main struct goodreactor_swiftui_sampleApp: App {
@@ -16,6 +16,7 @@ import SwiftUI
             MainWindow()
         }
     }
+
 }
 
 @NavigationRoot struct MainWindow: View {

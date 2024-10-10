@@ -80,7 +80,7 @@ func makeInitialState() -> State {
 Finally in the `reduce` function you define how `state` changes, according to certain `event`s:
 
 ```swift
-typealias Event = NewReactor.Event<Action, Mutation, Destination>
+typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
 func reduce(state: inout State, event: Event) {
     switch event.kind {

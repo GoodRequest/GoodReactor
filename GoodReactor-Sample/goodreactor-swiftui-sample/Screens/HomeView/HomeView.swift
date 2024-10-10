@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import NewReactor
+import GoodReactor
 
 struct HomeView: View {
 
