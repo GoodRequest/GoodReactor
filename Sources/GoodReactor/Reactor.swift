@@ -254,7 +254,9 @@ public extension Reactor {
 // MARK: - Public
 
 public extension Reactor {
-    
+
+    typealias DebouncerResultHandler = (@Sendable () async -> Mutation?)
+
     /// Send an action to this Reactor. The Reactor will decide how to modify
     /// the ``State`` according to the implementation of ``reduce(state:event:)``
     /// function.
@@ -305,7 +307,7 @@ public extension Reactor {
     }
 
     /// Asynchronously runs a handler associated with an event. If handler returns a mutation,
-    /// handler waits until the mutation is reduced before returning.
+    /// the entire event waits until the mutation is reduced before continuing.
     ///
     /// - Parameters:
     ///   - event: Event responsible for starting the asynchronous task.
@@ -316,7 +318,12 @@ public extension Reactor {
     /// This function doesn't block.
     ///
     /// - important: Start async events only from ``reduce(state:event:)`` to ensure correct behaviour.
-    func run(_ event: Event, _ eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
+    /// - warning: This function is unavailable from asynchronous contexts. If you need to run multiple tasks
+    /// concurrently, create a `TaskGroup` with ``_Concurrency/Task``s, use `async let` or consider using
+    /// an external helper struct.
+    /// - note: If you need to return multiple mutations from an asynchronous event, create a helper struct
+    /// and supply mutations using a ``Publisher`` and ``subscribe(to:map:)``
+    @available(*, noasync) func run(_ event: Event, _ eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
         let semaphore = MapTables.eventLocks[key: event.id, default: AsyncSemaphore(value: 0)]
         MapTables.runningEvents[key: self, default: []].insert(event.id)
 
@@ -339,6 +346,67 @@ public extension Reactor {
                 let mutationEvent = Event(kind: .mutation(mutation))
                 await _sendAsync(event: mutationEvent)
             }
+        }
+    }
+    
+    /// Debounces calls to a function by ignoring repeated successive calls. If handler returns a mutation,
+    /// the mutation will be executed once when debouncing is
+    ///
+    /// ## Usage
+    /// ```swift
+    /// debounce(duration: .seconds(1)) {
+    ///     await sendDebouncedNetworkRequest()
+    /// }
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - duration: Time interval the debouncer will wait for any repeated calls.
+    ///   - resultHandler: Function that will be called when there are no more
+    ///   events to debounce and enough time has passed.
+    ///   - file: Internal debouncer identifier macro, do not pass any value.
+    ///   - line: Internal debouncer identifier macro, do not pass any value.
+    ///   - column: Internal debouncer identifier macro, do not pass any value.
+    ///
+    /// This function doesn't block.
+    ///
+    /// - note: Each debouncer is identified by its location in source code. If you need to
+    /// supply events to a debouncer from multiple locations, use an instance of a ``Debouncer``
+    /// directly.
+    func debounce(
+        duration: DispatchTimeInterval,
+        resultHandler: @escaping DebouncerResultHandler,
+        _ file: StaticString = #file,
+        _ line: UInt = #line,
+        _ column: UInt = #column
+    ) {
+        let debouncerIdentifier = DebouncerIdentifier(file, line, column)
+
+        let localDebouncer: Debouncer<DebouncerResultHandler>
+        if let debouncer = MapTables.debouncers[key: self, default: [:]][debouncerIdentifier] as? Debouncer<DebouncerResultHandler> {
+            localDebouncer = debouncer
+        } else {
+            // create new debouncer
+            localDebouncer = Debouncer<DebouncerResultHandler>(delay: duration, outputHandler: { @MainActor [weak self] resultHandler in
+                guard let self else { return }
+
+                let mutation = await Task.detached { await resultHandler() }.value
+
+                guard !Task.isCancelled else {
+                    _debugLog(message: "Debounce cancelled")
+                    return
+                }
+
+                if let mutation {
+                    let mutationEvent = Event(kind: .mutation(mutation))
+                    _send(event: mutationEvent)
+                }
+            })
+
+            MapTables.debouncers[key: self, default: [:]][debouncerIdentifier] = localDebouncer
+        }
+
+        Task {
+            await localDebouncer.push(resultHandler)
         }
     }
 
