@@ -31,6 +31,14 @@ public extension Publisher {
         eachSubscriber { await $0.finish() }
     }
 
+    nonisolated func sendAsync(_ value: Value) {
+        Task { await send(value) }
+    }
+
+    nonisolated func finishAsync() {
+        Task { await finish() }
+    }
+
 }
 
 // MARK: - Internal
@@ -57,6 +65,35 @@ private extension Publisher {
             let action = action()
             Task { await action(subscriber) }
         }
+    }
+
+}
+
+// MARK: - Property wrapper
+
+public typealias Broadcast = GoodReactor.Published
+
+@propertyWrapper public final class Published<Value: Sendable> {
+
+    public var wrappedValue: Value {
+        didSet {
+            projectedValue.sendAsync(wrappedValue)
+        }
+    }
+
+    public var projectedValue: Publisher<Value>
+
+    public init(wrappedValue: Value, sendInitialValue: Bool = false) {
+        self.wrappedValue = wrappedValue
+        self.projectedValue = Publisher<Value>()
+
+        if sendInitialValue {
+            projectedValue.sendAsync(wrappedValue)
+        }
+    }
+
+    deinit {
+        projectedValue.finishAsync()
     }
 
 }
