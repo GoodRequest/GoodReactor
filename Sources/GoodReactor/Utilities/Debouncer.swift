@@ -65,7 +65,6 @@ public actor Debouncer<Value: Sendable> {
     }
 
     deinit {
-        print("cancelling task")
         task?.cancel()
     }
 

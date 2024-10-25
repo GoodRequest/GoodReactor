@@ -323,7 +323,7 @@ public extension Reactor {
     /// an external helper struct.
     /// - note: If you need to return multiple mutations from an asynchronous event, create a helper struct
     /// and supply mutations using a ``Publisher`` and ``subscribe(to:map:)``
-    @available(*, noasync) func run(_ event: Event, _ eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
+    @available(*, noasync) func run(_ event: Event, @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
         let semaphore = MapTables.eventLocks[key: event.id, default: AsyncSemaphore(value: 0)]
         MapTables.runningEvents[key: self, default: []].insert(event.id)
 
@@ -374,7 +374,7 @@ public extension Reactor {
     /// directly.
     func debounce(
         duration: DispatchTimeInterval,
-        resultHandler: @escaping DebouncerResultHandler,
+        @_implicitSelfCapture resultHandler: @escaping DebouncerResultHandler,
         _ file: StaticString = #file,
         _ line: UInt = #line,
         _ column: UInt = #column
@@ -433,8 +433,8 @@ public extension Reactor {
     ///
     /// - important: Call from the `transform` function. Remember to `start()`
     /// the reactor to properly initalize the subscriptions.
-    func subscribe<Value>(
-        to publisherProvider: @escaping @autoclosure () -> @Sendable () async -> Publisher<Value>,
+    func subscribe<Value: Sendable>(
+        to publisherProvider: @escaping @autoclosure () -> @Sendable () async -> any Publisher<Value>,
         map mapper: @escaping @autoclosure () -> @Sendable (Value) async -> (Mutation)
     ) {
         let publisher = publisherProvider()
