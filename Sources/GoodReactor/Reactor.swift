@@ -50,9 +50,29 @@ import SwiftUI
     /// ```
     associatedtype Mutation: Sendable
 
-    #warning("TODO: documentation")
+    /// Navigation destinations
+    ///
+    /// Destinations are used only as pointers to locations, which are supported
+    /// for navigation from the View using this Reactor.
+    ///
+    /// The latest destination will be stored in ``destination-swift.property``
+    /// and processed as an event in ``reduce(state:event:)``. It is the up to
+    /// the user of the Reactor to react to changes of this property and perform
+    /// necessary state, model and UI updates.
+    ///
+    /// - note: Reactor does not handle navigation to stay independent from
+    /// any UI framework and navigation design pattern used.
     associatedtype Destination: Sendable
-
+    
+    /// The latest destination of this reactor.
+    ///
+    /// This property can be used in three ways:
+    /// - as a property holding the current state of navigation, reacting to state
+    /// changes by modifiying the UI and vice-versa (eg. using SwiftUI's bindings).
+    /// - as a property holding the latest navigation step, calling out to an external
+    /// object responsible for handling navigation, or in ``reduce(state:event:)``.
+    /// - a mix of both, check out `GoodCoordinator` library made for seamless
+    /// integration of Reactor with SwiftUI navigation.
     var destination: Destination? { get set }
 
     /// State of the view
@@ -289,8 +309,23 @@ public extension Reactor {
         await _sendAsync(event: event)
     }
 
-    #warning("TODO: add documentation")
+    /// Requests navigation to a destination from this Reactor. Reactor itself does
+    /// not take any navigation actions - check out `GoodCoordinator`, or
+    /// handle the navigation yourself.
+    ///
+    /// - Parameter destination: Requested destination or nil, if presented
+    /// views should be dismissed
+    ///
+    /// Navigation in reactor is of a "fire and forget" style, meaning the programmer
+    /// is responsible for handling all state, models and UI transitions.
+    ///
+    /// - note: Destination will be sent to the ``reduce(state:event:)``
+    /// function and set to the ``destination-swift.property`` property.
+    /// Reduce function is the place for modifying external state and handling
+    /// navigation side effects.
     func send(destination: Destination?) {
+        let event = Event(kind: .destination(destination))
+        _send(event: event)
         self.destination = destination
     }
 
