@@ -27,12 +27,12 @@ final class AboutViewModel: GoodReactor {
     // MARK: - Constants
 
     internal let initialState: State
-    internal let coordinator: GoodCoordinator<AppStep>
+    internal let coordinator: GoodCoordinator<AboutStep>
 
 
     // MARK: - Initialization
 
-    init(coordinator: BaseCoordinator<AppStep>) {
+    init(coordinator: GoodCoordinator<AboutStep>) {
         self.coordinator = coordinator
 
         initialState = State()
@@ -44,18 +44,17 @@ final class AboutViewModel: GoodReactor {
 
 extension AboutViewModel {
 
-    func navigate(action: Action) -> AppStep? {
+    func navigate(action: Action) -> AboutStep? {
         switch action {
-            
         case .goToDocumentation:
             guard let url = URL(string: Constants.Links.documentation) else { return .none }
 
-            return .safari(url)
+            return .browser(url)
 
         case .goToAboutUs:
             guard let url = URL(string: Constants.Links.aboutUs) else { return .none }
 
-            return .safari(url)
+            return .browser(url)
         }
     }
 

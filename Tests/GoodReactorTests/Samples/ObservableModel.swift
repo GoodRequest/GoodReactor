@@ -121,6 +121,9 @@ final class EmptyObject {}
 
         case .mutation(.didChangeTime(let seconds)):
             state.time = seconds
+
+        case .destination:
+            break
         }
     }
 

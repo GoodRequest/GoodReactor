@@ -18,7 +18,6 @@
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
 		EA51F952299424AA00B14A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA51F950299424AA00B14A7C /* LaunchScreen.storyboard */; };
-		EA51F96029942B3C00B14A7C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F95F29942B3C00B14A7C /* Coordinator.swift */; };
 		EA51F96229942B6700B14A7C /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F96129942B6700B14A7C /* AppCoordinator.swift */; };
 		EA51F96429942B8300B14A7C /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F96329942B8300B14A7C /* HomeCoordinator.swift */; };
 		EA51F96829942BBF00B14A7C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F96629942BBF00B14A7C /* HomeViewModel.swift */; };
@@ -46,7 +45,6 @@
 		EA51F94E299424AA00B14A7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA51F951299424AA00B14A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA51F953299424AA00B14A7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA51F95F29942B3C00B14A7C /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		EA51F96129942B6700B14A7C /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		EA51F96329942B8300B14A7C /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		EA51F96629942BBF00B14A7C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 		EA51F95E29942B1300B14A7C /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				EA51F95F29942B3C00B14A7C /* Coordinator.swift */,
 				EA51F96129942B6700B14A7C /* AppCoordinator.swift */,
 				EA51F96329942B8300B14A7C /* HomeCoordinator.swift */,
 				EABE433929950C9E00EB51BD /* AboutCoordinator.swift */,
@@ -387,7 +384,6 @@
 				EABE4336299507C700EB51BD /* UIButtonExtensions.swift in Sources */,
 				EA751BBA29969882004016E1 /* MultiLineLabel.swift in Sources */,
 				EA51F96429942B8300B14A7C /* HomeCoordinator.swift in Sources */,
-				EA51F96029942B3C00B14A7C /* Coordinator.swift in Sources */,
 				EABE43342995078800EB51BD /* ActionButton.swift in Sources */,
 				EA51F9802994E04F00B14A7C /* UIControlExtensions.swift in Sources */,
 				EA51F96829942BBF00B14A7C /* HomeViewModel.swift in Sources */,

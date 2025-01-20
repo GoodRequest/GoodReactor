@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LegacyReactor
 
 enum HomeStep {
 
@@ -13,11 +14,7 @@ enum HomeStep {
 
 }
 
-class HomeCoordinator: BaseCoordinator<AppStep> {
-
-    init() {
-        super.init(rootViewController: UINavigationController())
-    }
+class HomeCoordinator: GoodCoordinator<HomeStep> {
 
     override func start() -> UIViewController? {
         super.start()
@@ -25,22 +22,13 @@ class HomeCoordinator: BaseCoordinator<AppStep> {
         let homeViewModel = HomeViewModel(coordinator: self)
         let homeViewController = HomeViewController(viewModel: homeViewModel)
 
-        navigationController?.viewControllers = [homeViewController]
+        let navigationController = UINavigationController(rootViewController: homeViewController)
+        rootViewController = navigationController
 
         return rootViewController
     }
 
-    override func navigate(to stepper: AppStep) -> StepAction {
-        switch stepper {
-        case .home(let homeStep):
-            return navigate(to: homeStep)
-
-        default:
-            return .none
-        }
-    }
-
-    func navigate(to step: HomeStep) -> StepAction {
+    override func navigate(to step: HomeStep) -> StepAction {
         switch step {
         case .goToAbout:
             let aboutViewController = AboutCoordinator(

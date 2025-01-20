@@ -11,7 +11,7 @@ import XCTest
 final class PublisherTests: XCTestCase {
 
     func testSubscriptions() async {
-        let publisher = Publisher<Int>()
+        let publisher = PassthroughPublisher<Int>()
         let subscriber = Subscriber<Int>()
 
         await subscriber.subscribe(to: publisher)
@@ -22,7 +22,7 @@ final class PublisherTests: XCTestCase {
     }
 
     func testSendValue() async {
-        let publisher = Publisher<Int>()
+        let publisher = PassthroughPublisher<Int>()
         let subscriber = Subscriber<Int>()
 
         await subscriber.subscribe(to: publisher)
@@ -42,7 +42,7 @@ final class PublisherTests: XCTestCase {
     }
 
     func testSequence() async {
-        let publisher = Publisher<Int>()
+        let publisher = PassthroughPublisher<Int>()
         let subscriber = Subscriber<Int>()
 
         await subscriber.subscribe(to: publisher)
@@ -72,7 +72,7 @@ final class PublisherTests: XCTestCase {
     }
 
     func testMultipleSubscribers() async throws {
-        let publisher = Publisher<Int>()
+        let publisher = PassthroughPublisher<Int>()
         let subscriber1 = Subscriber<Int>()
         let subscriber2 = Subscriber<Int>()
 

@@ -10,46 +10,6 @@ import Combine
 import CombineExt
 import SwiftUI
 
-///GoodCoordinator is used for managing navigation flow and data flow between different parts of an app.
-///It is a generic class that takes a Step type as its generic parameter.
-@available(iOS 13.0, *)
-open class GoodCoordinator<Step>: NSObject {
-
-    ///`Set` of `AnyCancellable` objects used to keep track of any cancellables created while using `Combine`.
-    open var cancellables: Set<AnyCancellable> = Set()
-
-    ///Used to establish the coordinator hierarchy.
-    open var parentCoordinator: GoodCoordinator<Step>?
-    @Published open var step: Step?
-
-    public init(parentCoordinator: GoodCoordinator<Step>? = nil) {
-        self.parentCoordinator = parentCoordinator
-    }
-
-    /// Search for the first matching coordinator in hierarchy
-    /// Need to setup parent coordinator to establish the coordinator hierarchy
-    public func firstCoordinatorOfType<T>(type: T.Type) -> T? {
-        if let thisCoordinator = self as? T {
-            return thisCoordinator
-        } else if let parentCoordinator = parentCoordinator {
-            return parentCoordinator.firstCoordinatorOfType(type: T.self)
-        }
-        return nil
-    }
-
-    /// Search for the last matching coordinator in hierarchy
-    /// Need to setup parent coordinator to establish the coordinator hierarchy
-    public func lastCoordinatorOfType<T>(type: T.Type) -> T? {
-        if let parentCoordinator = parentCoordinator,
-           let lastResult = parentCoordinator.lastCoordinatorOfType(type: T.self) {
-            return lastResult
-        } else {
-            return self as? T
-        }
-    }
-
-}
-
 @available(iOS 13.0, *)
 private enum MapTables {
 
@@ -63,7 +23,7 @@ private enum MapTables {
 /// The `GoodReactor` is responsible for managing the view's state, as well as handling user actions and application navigation.
 /// Defines a set of methods and properties that allow  specify how the application state changes in response to user actions.
 @available(iOS 13.0, *)
-public protocol GoodReactor: AnyObject, ObservableObject {
+@MainActor public protocol GoodReactor: AnyObject, ObservableObject {
 
     /// An action represents user actions.
     associatedtype Action

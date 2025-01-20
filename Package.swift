@@ -48,6 +48,11 @@ let package = Package(
             name: "GoodReactorTests",
             dependencies: ["GoodReactor"],
             swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "GoodCoordinatorTests",
+            dependencies: ["LegacyReactor"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
         )
     ]
 )

@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import LegacyReactor
 
-enum AboutStep {}
+enum AboutStep {
 
-class AboutCoordinator: BaseCoordinator<AppStep> {
+    case browser(URL)
 
-    override func start() -> AboutViewController {
+}
+
+class AboutCoordinator: GoodCoordinator<AboutStep> {
+
+    override func start() -> UIViewController {
         super.start()
 
         let aboutViewModel = AboutViewModel(coordinator: self)
@@ -24,13 +29,11 @@ class AboutCoordinator: BaseCoordinator<AppStep> {
         return aboutViewController
     }
 
-    override func navigate(to stepper: AppStep) -> StepAction {
-        switch stepper {
-        case .safari(let url):
+    override func navigate(to step: AboutStep) -> StepAction {
+        print("DEBUG: - hello")
+        switch step {
+        case .browser(let url):
             return .safari(url)
-
-        default:
-            return .none
         }
     }
 

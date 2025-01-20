@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LegacyReactor
 
 enum AppStep {
 
@@ -14,7 +15,7 @@ enum AppStep {
 
 }
 
-final class AppCoordinator: BaseCoordinator<AppStep> {
+final class AppCoordinator: GoodCoordinator<AppStep> {
 
     // MARK: - Constants
 
@@ -24,6 +25,14 @@ final class AppCoordinator: BaseCoordinator<AppStep> {
 
     init(window: UIWindow?) {
         self.window = window
+    }
+
+    required init(rootViewController: UIViewController? = nil, parentCoordinator: (any Coordinator)? = nil) {
+        fatalError("init(rootViewController:parentCoordinator:) has not been implemented")
+    }
+
+    required convenience init(parentCoordinator: any Coordinator) {
+        fatalError("init(parentCoordinator:) has not been implemented")
     }
 
     @discardableResult
