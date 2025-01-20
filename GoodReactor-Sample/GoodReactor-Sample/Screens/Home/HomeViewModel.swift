@@ -6,7 +6,7 @@
 //
 
 import Combine
-import GoodReactor
+import LegacyReactor
 
 final class HomeViewModel: GoodReactor {
 
@@ -48,7 +48,7 @@ final class HomeViewModel: GoodReactor {
 
     // MARK: - Initialization
 
-    init(coordinator: Coordinator<AppStep>) {
+    init(coordinator: BaseCoordinator<AppStep>) {
         self.coordinator = coordinator
         initialState = State(counterValue: 0)
     }

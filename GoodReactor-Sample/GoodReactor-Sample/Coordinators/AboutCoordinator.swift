@@ -9,7 +9,7 @@ import UIKit
 
 enum AboutStep {}
 
-class AboutCoordinator: Coordinator<AppStep> {
+class AboutCoordinator: BaseCoordinator<AppStep> {
 
     override func start() -> AboutViewController {
         super.start()

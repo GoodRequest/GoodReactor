@@ -27,7 +27,7 @@ struct RandomNumberResource: Readable {
         ()
     }
 
-    nonisolated static func resource(from response: [Int]) throws(NetworkError) -> Int {
+    nonisolated static func resource(from response: [Int], updating resource: Int?) throws(GoodNetworking.NetworkError) -> Int {
         if let first = response.first {
             return first
         } else {

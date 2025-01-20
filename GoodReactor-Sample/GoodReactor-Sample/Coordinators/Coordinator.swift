@@ -5,7 +5,7 @@
 //  Created by GoodRequest on 08/02/2023.
 //
 
-import GoodReactor
+import LegacyReactor
 import Combine
 import SafariServices
 
@@ -44,7 +44,7 @@ enum StepAction {
 }
 
 @MainActor
-class Coordinator<Step>: GoodCoordinator<Step> {
+class BaseCoordinator<Step>: GoodCoordinator<Step> {
 
     @discardableResult
     public func start() -> UIViewController? {
@@ -69,7 +69,7 @@ class Coordinator<Step>: GoodCoordinator<Step> {
         return rootViewController as? UINavigationController
     }
 
-    init(rootViewController: UIViewController? = nil, parentCoordinator: Coordinator<Step>? = nil) {
+    init(rootViewController: UIViewController? = nil, parentCoordinator: GoodCoordinator<Step>? = nil) {
         super.init(parentCoordinator: parentCoordinator)
 
         self.parentCoordinator = parentCoordinator

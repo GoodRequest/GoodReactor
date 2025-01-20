@@ -14,7 +14,7 @@ enum AppStep {
 
 }
 
-final class AppCoordinator: Coordinator<AppStep> {
+final class AppCoordinator: BaseCoordinator<AppStep> {
 
     // MARK: - Constants
 

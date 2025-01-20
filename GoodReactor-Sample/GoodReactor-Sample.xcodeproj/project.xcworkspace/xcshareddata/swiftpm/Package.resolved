@@ -1,13 +1,13 @@
 {
-  "originHash" : "e66c8117d9b42237263b4de46edc4aa97b6cdad073c429d74b862601ff05bbc5",
+  "originHash" : "05343bd7e7b239e89ddc6777d3bb2528b16e94b9f65472a9799b055078ae4795",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "e16d3481f5ed35f0472cb93350085853d754913f",
-        "version" : "5.10.1"
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
       }
     },
     {
@@ -47,6 +47,15 @@
       }
     },
     {
+      "identity" : "goodnetworking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GoodRequest/GoodNetworking",
+      "state" : {
+        "branch" : "resource-updating",
+        "revision" : "e845db183e3f8ff55518e431fb98ee976540938a"
+      }
+    },
+    {
       "identity" : "hitch",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Hitch.git",
@@ -60,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Sextant.git",
       "state" : {
-        "revision" : "52a77d0bce0210cf9557faef7fd0adb9a6da02fb",
-        "version" : "0.4.31"
+        "revision" : "b2141d4a693e2a768720534009cb621252be39a0",
+        "version" : "0.4.33"
       }
     },
     {
@@ -89,15 +98,6 @@
       "state" : {
         "revision" : "9bf03ff58ce34478e66aaee630e491823326fd06",
         "version" : "1.1.3"
-      }
-    },
-    {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-syntax.git",
-      "state" : {
-        "revision" : "515f79b522918f83483068d99c68daeb5116342d",
-        "version" : "600.0.0-prerelease-2024-09-04"
       }
     }
   ],

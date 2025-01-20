@@ -13,7 +13,7 @@ enum HomeStep {
 
 }
 
-class HomeCoordinator: Coordinator<AppStep> {
+class HomeCoordinator: BaseCoordinator<AppStep> {
 
     init() {
         super.init(rootViewController: UINavigationController())
