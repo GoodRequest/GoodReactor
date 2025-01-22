@@ -66,4 +66,21 @@ final class GoodReactorTests: XCTestCase {
         withExtendedLifetime(cancellable, {})
     }
 
+    @MainActor func testDebounce() async {
+        let model = ObservableModel()
+
+        XCTAssertEqual(model.state.counter, 9)
+
+        for _ in 0..<10 {
+            await model.send(action: .debounceTest) // send event 10x in a second
+            try? await Task.sleep(for: .milliseconds(100))
+        }
+
+        XCTAssertEqual(model.state.counter, 9) // event should be waiting in debouncer
+
+        try? await Task.sleep(for: .seconds(1))
+
+        XCTAssertEqual(model.state.counter, 10) // event should be debounced by now
+    }
+
 }

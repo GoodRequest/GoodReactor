@@ -7,7 +7,7 @@
 
 import GoodCoordinator
 import SwiftUI
-import NewReactor
+import GoodReactor
 
 struct DetailView: View {
 

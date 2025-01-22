@@ -1,13 +1,13 @@
 {
-  "originHash" : "29f6f72823407f70983528a7c3a0a061ad6f1aa0c17e358f4623a31f0b714680",
+  "originHash" : "e66c8117d9b42237263b4de46edc4aa97b6cdad073c429d74b862601ff05bbc5",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
-        "version" : "5.9.1"
+        "revision" : "e16d3481f5ed35f0472cb93350085853d754913f",
+        "version" : "5.10.1"
       }
     },
     {
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "1eaf3b6c6882bed10f6e7b119665599dd2329aa1",
         "version" : "4.3.0"
+      }
+    },
+    {
+      "identity" : "chronometer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Chronometer.git",
+      "state" : {
+        "revision" : "d21b89e5cb5929b5175bdb3ad710a52cbf497eaa",
+        "version" : "0.1.12"
       }
     },
     {
@@ -33,8 +42,35 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GoodRequest/GoodLogger.git",
       "state" : {
-        "revision" : "4c5761a062fd2a98c9b81078a029a14b67ccab2a",
-        "version" : "1.1.0"
+        "revision" : "8203802fcff9163a309bd5edd44cc6f649404050",
+        "version" : "1.2.4"
+      }
+    },
+    {
+      "identity" : "hitch",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Hitch.git",
+      "state" : {
+        "revision" : "d6c147a1d70992db39a141cb5bf9cf8fbb776250",
+        "version" : "0.4.148"
+      }
+    },
+    {
+      "identity" : "sextant",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Sextant.git",
+      "state" : {
+        "revision" : "52a77d0bce0210cf9557faef7fd0adb9a6da02fb",
+        "version" : "0.4.31"
+      }
+    },
+    {
+      "identity" : "spanker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Spanker.git",
+      "state" : {
+        "revision" : "d4b439bf76a40fb45d86a24d13b9c26e7d630eee",
+        "version" : "0.2.49"
       }
     },
     {

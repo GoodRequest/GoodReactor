@@ -7,7 +7,7 @@
 
 import Combine
 import Foundation
-import GoodReactor
+import LegacyReactor
 
 final class AboutViewModel: GoodReactor {
 

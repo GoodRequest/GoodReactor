@@ -10,7 +10,7 @@ public final class Event<A, M, D>: Sendable where A: Sendable, M: Sendable, D: S
     public enum Kind: Sendable {
         case action(A)
         case mutation(M)
-        case destination(D)
+        case destination(D?)
     }
 
     internal let id: EventIdentifier
@@ -21,7 +21,7 @@ public final class Event<A, M, D>: Sendable where A: Sendable, M: Sendable, D: S
         self.kind = kind
     }
 
-    convenience public init(destination: D) {
+    convenience public init(destination: D?) {
         self.init(kind: .destination(destination))
     }
 

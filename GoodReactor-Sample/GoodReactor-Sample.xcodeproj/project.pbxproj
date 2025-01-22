@@ -8,13 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0908A6462C91C0B10035A749 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 0908A6452C91C0B10035A749 /* GoodCoordinator */; };
-		092188C22C8CD57900C6085A /* NewReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 092188C12C8CD57900C6085A /* NewReactor */; };
-		099D61632C8211B500B86922 /* NewReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61622C8211B500B86922 /* NewReactor */; };
+		09545AF02CB6704900DC5A61 /* LegacyReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 09545AEF2CB6704900DC5A61 /* LegacyReactor */; };
+		09545AF22CB6705100DC5A61 /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 09545AF12CB6705100DC5A61 /* GoodReactor */; };
 		099D61702C83447900B86922 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 099D616F2C83447900B86922 /* GoodCoordinator */; };
 		099D61732C8472D300B86922 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61722C8472D300B86922 /* GoodNetworking */; };
 		099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617C2C84A3CC00B86922 /* RandomNumber.swift */; };
 		099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */; };
-		5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 5D4A974F299CCA4800DFAEAE /* GoodReactor */; };
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
 		EA51F952299424AA00B14A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA51F950299424AA00B14A7C /* LaunchScreen.storyboard */; };
@@ -73,8 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09545AF22CB6705100DC5A61 /* GoodReactor in Frameworks */,
 				0908A6462C91C0B10035A749 /* GoodCoordinator in Frameworks */,
-				092188C22C8CD57900C6085A /* NewReactor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,9 +82,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				099D61702C83447900B86922 /* GoodCoordinator in Frameworks */,
-				099D61632C8211B500B86922 /* NewReactor in Frameworks */,
-				5D4A9750299CCA4800DFAEAE /* GoodReactor in Frameworks */,
 				099D61732C8472D300B86922 /* GoodNetworking in Frameworks */,
+				09545AF02CB6704900DC5A61 /* LegacyReactor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,8 +278,8 @@
 			);
 			name = "goodreactor-swiftui-sample";
 			packageProductDependencies = (
-				092188C12C8CD57900C6085A /* NewReactor */,
 				0908A6452C91C0B10035A749 /* GoodCoordinator */,
+				09545AF12CB6705100DC5A61 /* GoodReactor */,
 			);
 			productName = "goodreactor-swiftui-sample";
 			productReference = 092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */;
@@ -301,10 +299,9 @@
 			);
 			name = "GoodReactor-Sample";
 			packageProductDependencies = (
-				5D4A974F299CCA4800DFAEAE /* GoodReactor */,
-				099D61622C8211B500B86922 /* NewReactor */,
 				099D616F2C83447900B86922 /* GoodCoordinator */,
 				099D61722C8472D300B86922 /* GoodNetworking */,
+				09545AEF2CB6704900DC5A61 /* LegacyReactor */,
 			);
 			productName = "GoodReactor-Sample";
 			productReference = EA51F940299424A900B14A7C /* GoodReactor-Sample.app */;
@@ -707,13 +704,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodCoordinator;
 		};
-		092188C12C8CD57900C6085A /* NewReactor */ = {
+		09545AEF2CB6704900DC5A61 /* LegacyReactor */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NewReactor;
+			productName = LegacyReactor;
 		};
-		099D61622C8211B500B86922 /* NewReactor */ = {
+		09545AF12CB6705100DC5A61 /* GoodReactor */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NewReactor;
+			productName = GoodReactor;
 		};
 		099D616F2C83447900B86922 /* GoodCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -722,10 +719,6 @@
 		099D61722C8472D300B86922 /* GoodNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodNetworking;
-		};
-		5D4A974F299CCA4800DFAEAE /* GoodReactor */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = GoodReactor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

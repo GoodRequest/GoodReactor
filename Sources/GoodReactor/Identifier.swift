@@ -20,3 +20,15 @@ public extension Identifier {
     }
 
 }
+
+// MARK: - Code location identifier
+
+public final class CodeLocationIdentifier: Identifier {
+
+    public let id: String
+
+    public init(_ file: StaticString = #file, _ line: UInt = #line, _ column: UInt = #column) {
+        self.id = "\(file):\(line):\(column)"
+    }
+
+}

@@ -32,12 +32,15 @@ final class EmptyObject {}
         case subtractOne
         case resetToZero
         case cascade
+        case multipleRun
+        case debounceTest
     }
 
     enum Mutation {
         case didChangeTime(seconds: Int)
         case didAddOne
         case didReceiveValue(newValue: Int)
+        case didAddOneWithDelay
     }
 
     // MARK: Destination
@@ -79,6 +82,29 @@ final class EmptyObject {}
             let oldValue = state.counter
             run(event) { await self.asyncAddOne(oldValue: oldValue) }
 
+        case .action(.multipleRun):
+            run(event) {
+                try? await Task.sleep(for: .seconds(1))
+                return .didAddOneWithDelay
+            }
+            run(event) {
+                try? await Task.sleep(for: .seconds(1))
+                return .didAddOneWithDelay
+            }
+            run(event) {
+                try? await Task.sleep(for: .seconds(1))
+                return .didAddOneWithDelay
+            }
+
+        case .action(.debounceTest):
+            let counterValue = state.counter
+
+            print("debounce action started")
+            debounce(duration: .milliseconds(500)) {
+                print("running debounced function")
+                return await self.asyncAddOne(oldValue: counterValue)
+            }
+
         case .mutation(.didAddOne):
             state.counter += 1
 
@@ -86,6 +112,9 @@ final class EmptyObject {}
             if counterValue < 10 {
                 run(event) { await self.asyncAddOne(oldValue: counterValue) }
             }
+
+        case .mutation(.didAddOneWithDelay):
+            state.counter += 1
 
         case .mutation(.didReceiveValue(let newValue)):
             state.counter = newValue
@@ -97,8 +126,13 @@ final class EmptyObject {}
 
     // MARK: Async/side effects
 
+    func asyncAddOne() async -> Mutation? {
+        try? await Task.sleep(nanoseconds: UInt64(5e8)) // 500 ms
+        return .didAddOneWithDelay
+    }
+
     func asyncAddOne(oldValue: Int) async -> Mutation? {
-        try? await Task.sleep(nanoseconds: UInt64(33e7))
+        try? await Task.sleep(nanoseconds: UInt64(33e7)) // 330 ms
 
         if oldValue < 10 {
             return .didAddOne

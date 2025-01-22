@@ -102,6 +102,25 @@ final class PublisherTests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 3)
     }
 
+    @Broadcast var publishedWrapperCounter = 9
+
+    func testPublishedWrapper() async {
+        let subscriber = Subscriber<Int>()
+        await subscriber.subscribe(to: $publishedWrapperCounter)
+
+        let expectation = XCTestExpectation(description: "Received new value when a Published/Broadcast variable is set")
+
+        Task {
+            let result = await subscriber.next()
+            XCTAssertEqual(result, 100)
+            expectation.fulfill()
+        }
+
+        self.publishedWrapperCounter = 100
+
+        await fulfillment(of: [expectation])
+    }
+
 }
 
 // Only for testing purposes

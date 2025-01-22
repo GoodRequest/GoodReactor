@@ -6,14 +6,14 @@
 //
 
 import GoodCoordinator
-import NewReactor
+import GoodReactor
 import Observation
 import SwiftUI
 
 // TODO: Coordinator reactor macro for empty reactors
 @Observable final class AppReactor: Reactor {
 
-    typealias Event = NewReactor.Event<Action, Mutation, Destination>
+    typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
     enum Action {
 

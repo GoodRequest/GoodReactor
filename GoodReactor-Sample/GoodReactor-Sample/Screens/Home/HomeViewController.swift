@@ -7,7 +7,7 @@
 
 import Combine
 import UIKit
-import NewReactor
+import GoodReactor
 
 final class HomeViewController: BaseViewController<HomeViewModel>  {
 

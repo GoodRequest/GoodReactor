@@ -20,7 +20,7 @@ public actor Subscriber<Value: Sendable>: AsyncSequence, AsyncIteratorProtocol {
     private let semaphore = AsyncSemaphore(value: 0)
 
     private var valueQueue = Deque<Value>()
-    private var publisher: Publisher<Value>?
+    private var publisher: (any Publisher<Value>)?
 
     // MARK: - Initialization
 
@@ -48,7 +48,7 @@ public actor Subscriber<Value: Sendable>: AsyncSequence, AsyncIteratorProtocol {
 
 public extension Subscriber {
 
-    func subscribe(to publisher: Publisher<Value>) async {
+    func subscribe(to publisher: any Publisher<Value>) async {
         await publisher.connect(to: self)
     }
 
