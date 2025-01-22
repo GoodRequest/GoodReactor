@@ -11,7 +11,7 @@ import CombineExt
 import SwiftUI
 
 @available(iOS 13.0, *)
-private enum MapTables {
+@MainActor private enum MapTables {
 
     static let cancellables = WeakMapTable<AnyObject, Set<AnyCancellable>>()
     static let currentState = WeakMapTable<AnyObject, Any>()
@@ -91,7 +91,7 @@ nonisolated(unsafe) private var stubKey = "stub"
 // MARK: - Default Implementations
 
 @available(iOS 13.0, *)
-public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableObjectPublisher {
+@MainActor public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableObjectPublisher {
 
     var currentState: State {
         get { MapTables.currentState.forceCastedValue(forKey: self, default: initialState) }
@@ -134,28 +134,38 @@ public extension GoodReactor where Self.ObjectWillChangePublisher == ObservableO
     ///
     /// - Returns: A publisher that emits the current state and any subsequent state changes.
     func createStateStream() -> AnyPublisher<State, Never> {
-        let action = self.actionPublisher.receive(on: DispatchQueue.main).eraseToAnyPublisher()
+        let action = self.actionPublisher
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
 
         let mutation = self.transform(action: action)
+            .receive(on: DispatchQueue.main)
             .flatMap { [weak self] action -> AnyPublisher<Mutation, Never> in
                 guard let `self` = self else { return Empty().eraseToAnyPublisher() }
+
                 if let step = self.navigate(action: action) {
-                    self.coordinator.step = step
+                    coordinator.perform(step: step)
                 }
+
                 return self.mutate(action: action).eraseToAnyPublisher()
             }
-        .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
 
         let transformedMutation = self.transform(mutation: mutation)
+            .receive(on: DispatchQueue.main)
+
         let state = transformedMutation
             .scan(self.initialState) { [weak self] state, mutation -> State in
                 guard let `self` = self else { return state }
                 return self.reduce(state: state, mutation: mutation)
             }
+            .receive(on: DispatchQueue.main)
             .prepend(self.initialState)
             .eraseToAnyPublisher()
 
         let transformedState = self.transform(state: state)
+            .receive(on: DispatchQueue.main)
             .handleEvents(receiveOutput: { [weak self] state in
                 self?.currentState = state
             })
