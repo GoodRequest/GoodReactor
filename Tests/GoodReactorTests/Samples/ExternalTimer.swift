@@ -14,7 +14,7 @@ import GoodReactor
 final class ExternalTimer: @unchecked Sendable {
 
     @MainActor static let shared = ExternalTimer()
-    let timePublisher = GoodReactor.Publisher<Int>()
+    let timePublisher = GoodReactor.PassthroughPublisher<Int>()
 
     init() {
         Task {

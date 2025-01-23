@@ -6,7 +6,7 @@
 //
 
 import Combine
-import GoodReactor
+import LegacyReactor
 
 final class HomeViewModel: GoodReactor {
 
@@ -44,11 +44,11 @@ final class HomeViewModel: GoodReactor {
     // MARK: - Constants
 
     internal let initialState: State
-    internal let coordinator: GoodCoordinator<AppStep>
+    internal let coordinator: GoodCoordinator<HomeStep>
 
     // MARK: - Initialization
 
-    init(coordinator: Coordinator<AppStep>) {
+    init(coordinator: GoodCoordinator<HomeStep>) {
         self.coordinator = coordinator
         initialState = State(counterValue: 0)
     }
@@ -59,10 +59,10 @@ final class HomeViewModel: GoodReactor {
 
 extension HomeViewModel {
 
-    func navigate(action: Action) -> AppStep? {
+    func navigate(action: Action) -> HomeStep? {
         switch action {
         case .goToAbout:
-            return .home(.goToAbout)
+            return .goToAbout
 
         default:
             return .none
