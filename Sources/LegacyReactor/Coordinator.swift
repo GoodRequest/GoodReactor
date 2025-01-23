@@ -22,6 +22,12 @@ import UIKit
     ///Coordinator's root `UIViewController`
     var rootViewController: UIViewController? { get set }
 
+    /// Calls the default, parameter-less implementation of `start` function, returning the view controller
+    /// this coordinator manages. This is useful when navigating to a coordinator of an unknown type,
+    /// not requiring casting to a concrete type first.
+    @discardableResult
+    func start() -> UIViewController?
+
 }
 
 extension Coordinator {
