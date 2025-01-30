@@ -535,7 +535,7 @@ private extension Reactor {
     }
 
     private static func _debugLog(message: String) {
-        logger.log(message: "[GoodReactor] \(Self.name) - \(message)", level: .debug, privacy: .auto)
+        logger.log(message: "[GoodReactor] \(Self.name) - \(message)", level: .debug)
     }
 
 }
