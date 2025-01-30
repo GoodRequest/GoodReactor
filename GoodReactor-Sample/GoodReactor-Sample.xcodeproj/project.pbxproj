@@ -14,6 +14,7 @@
 		099D61732C8472D300B86922 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61722C8472D300B86922 /* GoodNetworking */; };
 		099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617C2C84A3CC00B86922 /* RandomNumber.swift */; };
 		099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */; };
+		3F8C10772D4B7E16000A4CC0 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8C10762D4B7E16000A4CC0 /* GoodCoordinator */; };
 		6B9596242D3E690B0037D874 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 6B9596232D3E690B0037D874 /* GoodNetworking */; };
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F8C10772D4B7E16000A4CC0 /* GoodCoordinator in Frameworks */,
 				09545AF22CB6705100DC5A61 /* GoodReactor in Frameworks */,
 				0908A6462C91C0B10035A749 /* GoodCoordinator in Frameworks */,
 			);
@@ -279,6 +281,7 @@
 			packageProductDependencies = (
 				0908A6452C91C0B10035A749 /* GoodCoordinator */,
 				09545AF12CB6705100DC5A61 /* GoodReactor */,
+				3F8C10762D4B7E16000A4CC0 /* GoodCoordinator */,
 			);
 			productName = "goodreactor-swiftui-sample";
 			productReference = 092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */;
@@ -335,8 +338,8 @@
 			);
 			mainGroup = EA51F937299424A900B14A7C;
 			packageReferences = (
-				0908A6442C91C0B10035A749 /* XCLocalSwiftPackageReference "../../GoodCoordinator-iOS" */,
 				6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */,
+				3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */,
 			);
 			productRefGroup = EA51F941299424A900B14A7C /* Products */;
 			projectDirPath = "";
@@ -687,14 +690,15 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		0908A6442C91C0B10035A749 /* XCLocalSwiftPackageReference "../../GoodCoordinator-iOS" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../GoodCoordinator-iOS";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
+		3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GoodRequest/GoodCoordinator-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.3;
+			};
+		};
 		6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/GoodRequest/GoodNetworking";
@@ -725,6 +729,11 @@
 		099D61722C8472D300B86922 /* GoodNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodNetworking;
+		};
+		3F8C10762D4B7E16000A4CC0 /* GoodCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */;
+			productName = GoodCoordinator;
 		};
 		6B9596232D3E690B0037D874 /* GoodNetworking */ = {
 			isa = XCSwiftPackageProductDependency;

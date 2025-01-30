@@ -1,5 +1,5 @@
 {
-  "originHash" : "05343bd7e7b239e89ddc6777d3bb2528b16e94b9f65472a9799b055078ae4795",
+  "originHash" : "c18ed7d4c3eb52cbc342b966d828442d2dfac554400b8af9825017e69d038392",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -38,12 +38,21 @@
       }
     },
     {
+      "identity" : "goodcoordinator-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GoodRequest/GoodCoordinator-iOS",
+      "state" : {
+        "revision" : "3b5fc8c164477a2ff3ad902cf7e5854015dcc147",
+        "version" : "3.0.3"
+      }
+    },
+    {
       "identity" : "goodlogger",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GoodRequest/GoodLogger.git",
       "state" : {
-        "revision" : "8203802fcff9163a309bd5edd44cc6f649404050",
-        "version" : "1.2.4"
+        "revision" : "14318cd3a38a08ac49e2b1dee56386904fedecc5",
+        "version" : "1.3.0"
       }
     },
     {
@@ -98,6 +107,15 @@
       "state" : {
         "revision" : "9bf03ff58ce34478e66aaee630e491823326fd06",
         "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
       }
     }
   ],

@@ -49,6 +49,9 @@ import Observation
                 // no mutation
                 return nil
             }
+
+        case .destination(_):
+            break
         }
     }
 
