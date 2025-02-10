@@ -27,7 +27,7 @@ import SwiftUI
 
     }
 
-    @Observable final class State {
+    @Observable @MainActor final class State {
 
         var isLoading = false
         var counter: Int = 10

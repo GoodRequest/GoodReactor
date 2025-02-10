@@ -78,10 +78,10 @@ import SwiftUI
     /// State of the view
     ///
     /// ## In iOS 17+:
-    /// Mark the state as an `@Observable` final class (from Observation framework).
+    /// Mark the state as a `@MainActor @Observable` final class (from Observation framework).
     ///
     /// ```swift
-    /// @Observable final class State {
+    /// @MainActor @Observable final class State {
     ///     var count: Int = 10
     ///}
     ///```
@@ -385,7 +385,7 @@ public extension Reactor {
     }
     
     /// Debounces calls to a function by ignoring repeated successive calls. If handler returns a mutation,
-    /// the mutation will be executed once when debouncing is
+    /// the mutation will be executed once when debouncing has finished.
     ///
     /// ## Usage
     /// ```swift

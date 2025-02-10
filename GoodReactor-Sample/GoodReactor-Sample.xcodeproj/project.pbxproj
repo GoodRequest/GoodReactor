@@ -693,10 +693,10 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/GoodRequest/GoodCoordinator-iOS";
+			repositoryURL = "https://github.com/GoodRequest/GoodCoordinator-iOS/";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.3;
+				minimumVersion = 3.0.4;
 			};
 		};
 		6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */ = {
