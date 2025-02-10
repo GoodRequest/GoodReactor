@@ -17,6 +17,12 @@ struct ProfileView: View {
         VStack {
             Text("Profile")
 
+            Text("Shared value: \(model.studentsCount)")
+
+//            TextField("Username", text: model.bind(\.profile.username, action: { newUsername in
+//                return .changeUsername(newUsername)
+//            }))
+
             Button {
                 #router.route(AppReactor.self, .loggedOut)
                 #router.cleanup()

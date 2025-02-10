@@ -11,13 +11,17 @@ import GoodReactor
 
 struct DetailView: View {
 
-    @ViewModel private var model = DetailViewModel()
-
-    let value: Int
+    @ViewModel var viewModel: DetailViewModel
 
     var body: some View {
         VStack {
-            Text("Detail for value \(value)")
+            Text("Detail for value \(viewModel.studentsCount)")
+
+            Button {
+                viewModel.send(action: .increment)
+            } label: {
+                Text("Increment")
+            }
 
             Button {
                 #router.route(HomeViewModel.self, .profile)
@@ -32,14 +36,14 @@ struct DetailView: View {
             }
 
             Button {
-                model.send(destination: .detail(value - 1))
+                viewModel.send(destination: .detail(-1/*viewModel.value - 1*/))
             } label: {
                 Text("Push detail with one less")
             }
         }
-        .navigationDestination(isPresented: $model.destinations.detail) {
-            if case .detail(let value) = model.destination {
-                DetailView(value: value)
+        .navigationDestination(isPresented: $viewModel.destinations.detail) {
+            if case .detail(let value) = viewModel.destination {
+                DetailView(viewModel: DetailViewModel())
             }
         }
     }
