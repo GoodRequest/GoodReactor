@@ -32,7 +32,6 @@ class HomeCoordinator: GoodCoordinator<HomeStep> {
         switch step {
         case .goToAbout:
             let aboutViewController = AboutCoordinator(
-                rootViewController: rootViewController,
                 parentCoordinator: self
             ).start()
 
