@@ -33,7 +33,7 @@ public enum StepAction {
 
     // Links
     case safari(URL, UIModalPresentationStyle = .automatic, tintColor: UIColor? = nil)
-    case universalLink(url: URL, onlyUniversal: Bool, completion: (@MainActor (Bool) -> ())? = nil)
+    case universalLink(url: URL, onlyOpenWhenTargetAppIsAvailable: Bool = false, completion: (@MainActor (Bool) -> ())? = nil)
 
     // Actions
     case call(String)
@@ -89,21 +89,20 @@ open class GoodCoordinator<Step>: NSObject, Coordinator {
     /// - Parameters:
     ///   - rootViewController: The root view controller managed by this coordinator. Default value is nil.
     ///   - parentCoordinator: The parent coordinator of this coordinator. Default value is nil.
-    public required init(rootViewController: UIViewController? = nil, parentCoordinator: Coordinator? = nil) {
+    public required init(rootViewController: UIViewController? = nil) {
         super.init()
 
         self.rootViewController = rootViewController
-        self.parentCoordinator = parentCoordinator
-        self.parentCoordinator?.children.addObject(self)
     }
     
     /// A convenience initializer that initializes a GoodCoordinator with a root view controller derived from the provided parent coordinator.
     /// - Parameter parentCoordinator: The parent coordinator to which this coordinator will belong.
-    public required convenience init(parentCoordinator: Coordinator) {
-        self.init(
-            rootViewController: parentCoordinator.rootViewController,
-            parentCoordinator: parentCoordinator
-        )
+    public required init(parentCoordinator: Coordinator?) {
+        super.init()
+
+        self.parentCoordinator = parentCoordinator
+        self.rootViewController = parentCoordinator?.rootViewController
+        self.parentCoordinator?.children.addObject(self)
     }
 
     // MARK: - Overridable

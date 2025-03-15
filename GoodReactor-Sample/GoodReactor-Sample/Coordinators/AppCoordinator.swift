@@ -25,13 +25,15 @@ final class AppCoordinator: GoodCoordinator<AppStep> {
 
     init(window: UIWindow?) {
         self.window = window
+        
+        super.init()
     }
 
-    required init(rootViewController: UIViewController? = nil, parentCoordinator: (any Coordinator)? = nil) {
+    required init(rootViewController: UIViewController? = nil) {
         fatalError("init(rootViewController:parentCoordinator:) has not been implemented")
     }
 
-    required convenience init(parentCoordinator: any Coordinator) {
+    required init(parentCoordinator: Coordinator?) {
         fatalError("init(parentCoordinator:) has not been implemented")
     }
 
