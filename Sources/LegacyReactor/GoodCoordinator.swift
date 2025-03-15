@@ -33,7 +33,7 @@ public enum StepAction {
 
     // Links
     case safari(URL, UIModalPresentationStyle = .automatic, tintColor: UIColor? = nil)
-    case universalLink(url: URL, onlyUniversal: Bool, completion: (@MainActor (Bool) -> ())? = nil)
+    case universalLink(url: URL, onlyOpenWhenTargetAppIsAvailable: Bool = false, completion: (@MainActor (Bool) -> ())? = nil)
 
     // Actions
     case call(String)
