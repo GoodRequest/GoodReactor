@@ -22,16 +22,14 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CombineCommunity/CombineExt.git", from: "1.8.1"),
         .package(url: "https://github.com/apple/swift-async-algorithms.git", .upToNextMajor(from: "1.0.0")),
-        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3")),
-        .package(url: "https://github.com/GoodRequest/GoodLogger.git", .upToNextMajor(from: "1.3.0"))
+        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3"))
     ],
     targets: [
         .target(
             name: "GoodReactor",
             dependencies: [
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
-                .product(name: "Collections", package: "swift-collections"),
-                .product(name: "GoodLogger", package: "GoodLogger")
+                .product(name: "Collections", package: "swift-collections")
             ],
             path: "./Sources/GoodReactor",
             swiftSettings: [.swiftLanguageMode(.v6)]

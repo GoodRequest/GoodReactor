@@ -5,8 +5,6 @@
 //  Created by Filip Šašala on 27/08/2024.
 //
 
-import GoodLogger
-
 internal enum MapTables {
 
     typealias AnyReactor = AnyObject
@@ -33,7 +31,7 @@ internal enum MapTables {
     static let eventStreams = WeakMapTable<AnyReactor, Any>()
 
     // Logger of a reactor
-    static let loggers = WeakMapTable<AnyReactor, GoodLogger>()
+    static let loggers = WeakMapTable<AnyReactor, ReactorLogger>()
 
     // Semaphore lock of an event (does not matter which reactor it's running on)
     static let eventLocks = WeakMapTable<EventIdentifier, AsyncSemaphore>()

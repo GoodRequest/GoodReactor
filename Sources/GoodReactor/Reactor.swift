@@ -7,7 +7,6 @@
 
 import AsyncAlgorithms
 import Collections
-import GoodLogger
 import Observation
 
 #if canImport(Combine)
@@ -102,7 +101,7 @@ import SwiftUI
     associatedtype State
 
     /// Logger used for logging reactor events
-    static var logger: GoodLogger { get }
+    static var logger: ReactorLogger? { get }
 
     /// Initial state of the reactor
     ///
@@ -124,7 +123,7 @@ import SwiftUI
     ///
     /// - Returns: Logger used for logging reactor events. See `GoodLogger` package
     /// for more information.
-    static func makeLogger() -> GoodLogger
+    static func makeLogger() -> ReactorLogger?
 
     /// Constructor for this reactor's initial state.
     ///
@@ -236,7 +235,7 @@ public extension Reactor {
 
     typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
-    static var logger: GoodLogger {
+    static var logger: ReactorLogger? {
         MapTables.loggers.forceCastedValue(forKey: self, default: makeLogger())
     }
 
@@ -253,12 +252,8 @@ public extension Reactor {
         MapTables.initialState.forceCastedValue(forKey: self, default: makeInitialState())
     }
 
-    static func makeLogger() -> GoodLogger {
-        if #available(iOS 14, *) {
-            OSLogLogger()
-        } else {
-            PrintLogger()
-        }
+    static func makeLogger() -> ReactorLogger? {
+        ReactorConfiguration.logger
     }
 
     func transform() {}
@@ -535,7 +530,7 @@ private extension Reactor {
     }
 
     private static func _debugLog(message: String) {
-        logger.log(message: "[GoodReactor] \(Self.name) - \(message)", level: .debug)
+        logger?.logReactorEvent("[GoodReactor] \(Self.name) - \(message)", level: .debug, fileName: #file, lineNumber: #line)
     }
 
 }
