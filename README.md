@@ -181,6 +181,7 @@ reactor.stateStream
 
 ## Logging
 ```swift
+// 1. Create a logger conforming to ReactorLogger protocol
 struct SampleLogger: ReactorLogger {
     
     func logReactorEvent(_ message: Any, level: LogLevel, fileName: String, lineNumber: Int) {
@@ -189,7 +190,16 @@ struct SampleLogger: ReactorLogger {
     
 }
 
-ReactorConfiguration.logger = SampleLogger()
+// 2. Set the logger to the Reactor
+@Observable final class ContentViewModel: Reactor {
+
+    // ...
+    
+    func makeLogger() -> (any ReactorLogger)? {
+        SampleLogger()
+    }
+
+}
 ```
 
 # License

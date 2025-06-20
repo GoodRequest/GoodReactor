@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GoodRequest/GoodCoordinator-iOS",
       "state" : {
-        "revision" : "09ac74c6d6b17080d09618dee922c6fb76e65d18",
-        "version" : "3.0.4"
+        "revision" : "6d66c120f167e860e72f11793ddf3c6226eb8c99",
+        "version" : "3.1.0"
       }
     },
     {
