@@ -1,33 +1,6 @@
 {
-  "originHash" : "c18ed7d4c3eb52cbc342b966d828442d2dfac554400b8af9825017e69d038392",
+  "originHash" : "a18d7a2aafc20be26e40afc13df8e437e2c4921f98705d82f06ebbd92e36e313",
   "pins" : [
-    {
-      "identity" : "alamofire",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire.git",
-      "state" : {
-        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
-        "version" : "5.10.2"
-      }
-    },
-    {
-      "identity" : "alamofireimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/AlamofireImage.git",
-      "state" : {
-        "revision" : "1eaf3b6c6882bed10f6e7b119665599dd2329aa1",
-        "version" : "4.3.0"
-      }
-    },
-    {
-      "identity" : "chronometer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Chronometer.git",
-      "state" : {
-        "revision" : "d21b89e5cb5929b5175bdb3ad710a52cbf497eaa",
-        "version" : "0.1.12"
-      }
-    },
     {
       "identity" : "combineext",
       "kind" : "remoteSourceControl",
@@ -42,53 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GoodRequest/GoodCoordinator-iOS",
       "state" : {
-        "revision" : "3b5fc8c164477a2ff3ad902cf7e5854015dcc147",
-        "version" : "3.0.3"
-      }
-    },
-    {
-      "identity" : "goodlogger",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/GoodRequest/GoodLogger.git",
-      "state" : {
-        "revision" : "14318cd3a38a08ac49e2b1dee56386904fedecc5",
-        "version" : "1.3.0"
-      }
-    },
-    {
-      "identity" : "goodnetworking",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/GoodRequest/GoodNetworking",
-      "state" : {
-        "branch" : "resource-updating",
-        "revision" : "e845db183e3f8ff55518e431fb98ee976540938a"
-      }
-    },
-    {
-      "identity" : "hitch",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Hitch.git",
-      "state" : {
-        "revision" : "d6c147a1d70992db39a141cb5bf9cf8fbb776250",
-        "version" : "0.4.148"
-      }
-    },
-    {
-      "identity" : "sextant",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Sextant.git",
-      "state" : {
-        "revision" : "b2141d4a693e2a768720534009cb621252be39a0",
-        "version" : "0.4.33"
-      }
-    },
-    {
-      "identity" : "spanker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Spanker.git",
-      "state" : {
-        "revision" : "d4b439bf76a40fb45d86a24d13b9c26e7d630eee",
-        "version" : "0.2.49"
+        "revision" : "09ac74c6d6b17080d09618dee922c6fb76e65d18",
+        "version" : "3.0.4"
       }
     },
     {

@@ -179,6 +179,19 @@ reactor.stateStream
     .store(in: &cancellables)
 ```
 
+## Logging
+```swift
+struct SampleLogger: ReactorLogger {
+    
+    func logReactorEvent(_ message: Any, level: LogLevel, fileName: String, lineNumber: Int) {
+        print("[\(level)] \(message) (\(fileName):\(lineNumber))")
+    }
+    
+}
+
+ReactorConfiguration.logger = SampleLogger()
+```
+
 # License
 GoodReactor repository is released under the MIT license. See [LICENSE](LICENSE.md) for details.
 

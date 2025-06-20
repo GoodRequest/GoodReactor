@@ -11,11 +11,7 @@
 		09545AF02CB6704900DC5A61 /* LegacyReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 09545AEF2CB6704900DC5A61 /* LegacyReactor */; };
 		09545AF22CB6705100DC5A61 /* GoodReactor in Frameworks */ = {isa = PBXBuildFile; productRef = 09545AF12CB6705100DC5A61 /* GoodReactor */; };
 		099D61702C83447900B86922 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 099D616F2C83447900B86922 /* GoodCoordinator */; };
-		099D61732C8472D300B86922 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 099D61722C8472D300B86922 /* GoodNetworking */; };
-		099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617C2C84A3CC00B86922 /* RandomNumber.swift */; };
-		099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */; };
 		3F8C10772D4B7E16000A4CC0 /* GoodCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8C10762D4B7E16000A4CC0 /* GoodCoordinator */; };
-		6B9596242D3E690B0037D874 /* GoodNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 6B9596232D3E690B0037D874 /* GoodNetworking */; };
 		EA51F944299424A900B14A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51F943299424A900B14A7C /* AppDelegate.swift */; };
 		EA51F94F299424AA00B14A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA51F94E299424AA00B14A7C /* Assets.xcassets */; };
 		EA51F952299424AA00B14A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA51F950299424AA00B14A7C /* LaunchScreen.storyboard */; };
@@ -38,8 +34,6 @@
 
 /* Begin PBXFileReference section */
 		092188B02C8CD2A100C6085A /* goodreactor-swiftui-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "goodreactor-swiftui-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		099D617C2C84A3CC00B86922 /* RandomNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumber.swift; sourceTree = "<group>"; };
-		099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGEndpoint.swift; sourceTree = "<group>"; };
 		5D4A974E299CCA0F00DFAEAE /* GoodReactor */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GoodReactor; path = ..; sourceTree = "<group>"; };
 		EA51F940299424A900B14A7C /* GoodReactor-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GoodReactor-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA51F943299424A900B14A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,24 +77,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				099D61702C83447900B86922 /* GoodCoordinator in Frameworks */,
-				099D61732C8472D300B86922 /* GoodNetworking in Frameworks */,
 				09545AF02CB6704900DC5A61 /* LegacyReactor in Frameworks */,
-				6B9596242D3E690B0037D874 /* GoodNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		099D617E2C84A3CC00B86922 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				099D617C2C84A3CC00B86922 /* RandomNumber.swift */,
-				099D617D2C84A3CC00B86922 /* RNGEndpoint.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		5D4A974D299CCA0F00DFAEAE /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,7 +124,6 @@
 			children = (
 				EA51F95D299425A600B14A7C /* Application */,
 				EA751BAF29964F24004016E1 /* Helpers */,
-				099D617E2C84A3CC00B86922 /* Models */,
 				EA51F97E2994E03700B14A7C /* Extensions */,
 				EA51F95E29942B1300B14A7C /* Coordinators */,
 				EA51F96529942B9400B14A7C /* Screens */,
@@ -302,9 +284,7 @@
 			name = "GoodReactor-Sample";
 			packageProductDependencies = (
 				099D616F2C83447900B86922 /* GoodCoordinator */,
-				099D61722C8472D300B86922 /* GoodNetworking */,
 				09545AEF2CB6704900DC5A61 /* LegacyReactor */,
-				6B9596232D3E690B0037D874 /* GoodNetworking */,
 			);
 			productName = "GoodReactor-Sample";
 			productReference = EA51F940299424A900B14A7C /* GoodReactor-Sample.app */;
@@ -338,7 +318,6 @@
 			);
 			mainGroup = EA51F937299424A900B14A7C;
 			packageReferences = (
-				6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */,
 				3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */,
 			);
 			productRefGroup = EA51F941299424A900B14A7C /* Products */;
@@ -398,8 +377,6 @@
 				EABE433C2995128400EB51BD /* Constants.swift in Sources */,
 				EA6B6D8A2994F30E0035186A /* AboutViewController.swift in Sources */,
 				EA6B6D892994F30E0035186A /* AboutViewModel.swift in Sources */,
-				099D617F2C84A3CC00B86922 /* RandomNumber.swift in Sources */,
-				099D61802C84A3CC00B86922 /* RNGEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,15 +673,7 @@
 			repositoryURL = "https://github.com/GoodRequest/GoodCoordinator-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.3;
-			};
-		};
-		6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/GoodRequest/GoodNetworking";
-			requirement = {
-				branch = "resource-updating";
-				kind = branch;
+				minimumVersion = 3.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -726,19 +695,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = GoodCoordinator;
 		};
-		099D61722C8472D300B86922 /* GoodNetworking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = GoodNetworking;
-		};
 		3F8C10762D4B7E16000A4CC0 /* GoodCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F8C10752D4B7E16000A4CC0 /* XCRemoteSwiftPackageReference "GoodCoordinator-iOS" */;
 			productName = GoodCoordinator;
-		};
-		6B9596232D3E690B0037D874 /* GoodNetworking */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6B9596222D3E690B0037D874 /* XCRemoteSwiftPackageReference "GoodNetworking" */;
-			productName = GoodNetworking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
