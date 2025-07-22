@@ -34,9 +34,6 @@ import SwiftUI
     /// A State represents the current state of a view.
     associatedtype State
 
-    /// A property represents the the steps navigations
-    associatedtype Stepper
-
     /// The action from the view. Bind user inputs to this subject.
     var action: PassthroughSubject<Action, Never> { get }
 
@@ -48,9 +45,6 @@ import SwiftUI
 
     /// The state stream. Use this observable to observe the state changes.
     var state: AnyPublisher<State, Never> { get }
-
-    /// The instance of coordinator.
-    var coordinator: GoodCoordinator<Stepper> { get }
 
     /// Transforms the action. Use this function to combine with other observables. This method is
     /// called once before the state stream is created.
@@ -74,7 +68,7 @@ import SwiftUI
     func transform(state: AnyPublisher<State, Never>) -> AnyPublisher<State, Never>
 
     /// Commit navigation from the action. This is the best place to navigate between screens
-    func navigate(action: Action) -> Stepper?
+    func navigate(action: Action)
 
 }
 
@@ -143,9 +137,7 @@ nonisolated(unsafe) private var stubKey = "stub"
             .flatMap { [weak self] action -> AnyPublisher<Mutation, Never> in
                 guard let `self` = self else { return Empty().eraseToAnyPublisher() }
 
-                if let step = self.navigate(action: action) {
-                    coordinator.perform(step: step)
-                }
+                self.navigate(action: action)
 
                 return self.mutate(action: action).eraseToAnyPublisher()
             }
@@ -197,6 +189,8 @@ nonisolated(unsafe) private var stubKey = "stub"
     func transform(state: AnyPublisher<State, Never>) -> AnyPublisher<State, Never> {
         return state
     }
+
+    func navigate(action: Action) {}
 
     /// Sends an action to the `action` publisher.
     /// This function is used to trigger a state update in the app by sending an action that corresponds to a specific user interaction or event.
