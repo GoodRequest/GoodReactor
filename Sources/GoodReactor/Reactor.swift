@@ -101,7 +101,7 @@ import SwiftUI
     associatedtype State
 
     /// Logger used for logging reactor events
-    static var logger: ReactorLogger? { get }
+    var logger: ReactorLogger? { get }
 
     /// Initial state of the reactor
     ///
@@ -117,13 +117,9 @@ import SwiftUI
 
     /// Constructor for this reactor's logger. Gets called only once during the lifetime
     /// of a Reactor.
-    ///
-    /// Default logger is `OSLogLogger` in iOS 14 and newer, or
-    /// `PrintLogger` in older iOS versions.
-    ///
-    /// - Returns: Logger used for logging reactor events. See `GoodLogger` package
+    /// - Returns: Logger used for logging reactor events. See `ReactorLogger` protocol
     /// for more information.
-    static func makeLogger() -> ReactorLogger?
+    func makeLogger() -> ReactorLogger?
 
     /// Constructor for this reactor's initial state.
     ///
@@ -235,7 +231,7 @@ public extension Reactor {
 
     typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
-    static var logger: ReactorLogger? {
+    var logger: ReactorLogger? {
         MapTables.loggers.forceCastedValue(forKey: self, default: makeLogger())
     }
 
@@ -252,8 +248,8 @@ public extension Reactor {
         MapTables.initialState.forceCastedValue(forKey: self, default: makeInitialState())
     }
 
-    static func makeLogger() -> ReactorLogger? {
-        ReactorConfiguration.logger
+    func makeLogger() -> ReactorLogger? {
+        nil
     }
 
     func transform() {}
@@ -481,7 +477,7 @@ public extension Reactor {
                 _send(event: event)
             }
 
-            Self._debugLog(message: "Subscription finished")
+            self?._debugLog(message: "Subscription finished")
         }
 
         subscription.store(in: &MapTables.subscriptions[key: self, default: []])
@@ -526,10 +522,6 @@ private extension Reactor {
     }
 
     private func _debugLog(message: String) {
-        Self._debugLog(message: message)
-    }
-
-    private static func _debugLog(message: String) {
         logger?.logReactorEvent("[GoodReactor] \(Self.name) - \(message)", level: .debug, fileName: #file, lineNumber: #line)
     }
 

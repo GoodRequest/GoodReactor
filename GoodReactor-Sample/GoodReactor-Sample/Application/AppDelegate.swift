@@ -22,18 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.configureAppearance()
         
         AppCoordinator(window: window).start()
-        
-        ReactorConfiguration.logger = SampleLogger()
 
         return true
     }
 
-}
-
-struct SampleLogger: ReactorLogger {
-    
-    func logReactorEvent(_ message: Any, level: LogLevel, fileName: String, lineNumber: Int) {
-        print("[\(level)] \(message) (\(fileName):\(lineNumber))")
-    }
-    
 }

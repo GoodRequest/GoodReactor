@@ -71,5 +71,9 @@ import SwiftUI
     func fetchData() async -> Mutation {
         return .didFetchData
     }
+    
+    func makeLogger() -> (any ReactorLogger)? {
+        SampleLogger()
+    }
 
 }
