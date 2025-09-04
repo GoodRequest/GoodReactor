@@ -1,5 +1,5 @@
 {
-  "originHash" : "7d09911a2b9fdc8c8d6e885386ea8fa518defa1e0331fa9ad1b1204a6836b658",
+  "originHash" : "b71cb2cb7e6020dc67e208caf2aab180faa35ab36c5f03d1119acffb914e92ac",
   "pins" : [
     {
       "identity" : "combineext",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "d7b896fa9ca8b47fa7bcde6b43ef9b70bf8c1f56",
         "version" : "1.8.1"
-      }
-    },
-    {
-      "identity" : "goodlogger",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/GoodRequest/GoodLogger.git",
-      "state" : {
-        "revision" : "4c5761a062fd2a98c9b81078a029a14b67ccab2a",
-        "version" : "1.1.0"
       }
     },
     {

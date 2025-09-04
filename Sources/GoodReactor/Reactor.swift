@@ -235,7 +235,7 @@ public extension Reactor {
 
     typealias Event = GoodReactor.Event<Action, Mutation, Destination>
 
-    static var logger: ReactorLogger? {
+    static var logger: (any ReactorLogger)? {
         MapTables.loggers.forceCastedValue(forKey: self, default: makeLogger())
     }
 
@@ -253,7 +253,7 @@ public extension Reactor {
     }
 
     static func makeLogger() -> ReactorLogger? {
-        ReactorConfiguration.logger
+        return PrintReactorLogger()
     }
 
     func transform() {}
