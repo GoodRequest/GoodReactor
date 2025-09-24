@@ -5,7 +5,10 @@
 //  Created by Filip Šašala on 24/09/2025.
 //
 
-@MainActor @dynamicMemberLookup public final class AnyReactor<WrappedAction: Sendable, WrappedMutation: Sendable, WrappedDestination: Sendable, WrappedState>: Reactor {
+import Observation
+
+@available(iOS 17.0, macOS 14.0, *)
+@MainActor @Observable @dynamicMemberLookup public final class AnyReactor<WrappedAction: Sendable, WrappedMutation: Sendable, WrappedDestination: Sendable, WrappedState>: Reactor {
 
     // MARK: - Type aliases
 
@@ -49,6 +52,7 @@
 
 // MARK: - Dynamic member lookup
 
+@available(iOS 17.0, macOS 14.0, *)
 public extension AnyReactor {
 
     subscript<T>(dynamicMember keyPath: KeyPath<State, T>) -> T {
@@ -61,34 +65,9 @@ public extension AnyReactor {
 
 }
 
-// MARK: - Direct writable paths
-
-public extension AnyReactor {
-
-    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: WritableKeyPath<State, T>) -> T {
-        get { _getState()[keyPath: keyPath] }
-        set {
-            var mutableState = _getState()
-            mutableState[keyPath: keyPath] = newValue
-            _setState(mutableState)
-        }
-    }
-
-    // Note: Even for ReferenceWritableKeyPath, using the copy–mutate–reassign pattern
-    // is fine and ensures any logic in your state setter runs consistently.
-    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: ReferenceWritableKeyPath<State, T>) -> T {
-        get { _getState()[keyPath: keyPath] }
-        set {
-            let mutableState = _getState()
-            mutableState[keyPath: keyPath] = newValue
-            _setState(mutableState)
-        }
-    }
-
-}
-
 // MARK: - Reactor
 
+@available(iOS 17.0, macOS 14.0, *)
 public extension AnyReactor {
 
     func makeInitialState() -> State {
@@ -120,6 +99,7 @@ public extension AnyReactor {
 
 // MARK: - Mirror
 
+@available(iOS 17.0, macOS 14.0, *)
 public extension AnyReactor {
 
     func send(action: Action) {
@@ -138,9 +118,10 @@ public extension AnyReactor {
 
 // MARK: - Eraser
 
+@available(iOS 17.0, macOS 14.0, *)
 public extension Reactor {
 
-    func eraseToAnyReactor() -> some Reactor {
+    func eraseToAnyReactor() -> AnyReactor<Action, Mutation, Destination, State> {
         AnyReactor(self)
     }
 

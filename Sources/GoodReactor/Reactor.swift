@@ -19,7 +19,7 @@ import SwiftUI
 
 // MARK: - Reactor protocol
 
-@MainActor @dynamicMemberLookup public protocol Reactor: AnyObject, Identifiable {
+@MainActor @dynamicMemberLookup public protocol Reactor: AnyObject, Identifiable, Hashable {
 
     /// Internal events
     ///
@@ -225,30 +225,6 @@ public extension Reactor {
 
     subscript<T>(dynamicMember dynamicMember: ReferenceWritableKeyPath<State, T>) -> T {
         return state[keyPath: dynamicMember]
-    }
-
-}
-
-// MARK: - Directly writable types
-
-public extension Reactor {
-
-    /// Opt-in writable accessor for value type paths (structs)
-    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: WritableKeyPath<State, T>) -> T {
-        get {
-            state[keyPath: keyPath]
-        }
-        set {
-            var s = state
-            s[keyPath: keyPath] = newValue
-            state = s
-        }
-    }
-
-    /// Opt-in writable accessor for reference type paths (class members)
-    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: ReferenceWritableKeyPath<State, T>) -> T {
-        get { state[keyPath: keyPath] }
-        set { state[keyPath: keyPath] = newValue }
     }
 
 }
