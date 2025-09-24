@@ -234,7 +234,7 @@ public extension Reactor {
 public extension Reactor {
 
     /// Opt-in writable accessor for value type paths (structs)
-    subscript<T: __ReactorDirectWriteable>(dynamicMember keyPath: WritableKeyPath<State, T>) -> T {
+    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: WritableKeyPath<State, T>) -> T {
         get {
             state[keyPath: keyPath]
         }
@@ -246,7 +246,7 @@ public extension Reactor {
     }
 
     /// Opt-in writable accessor for reference type paths (class members)
-    subscript<T: __ReactorDirectWriteable>(dynamicMember keyPath: ReferenceWritableKeyPath<State, T>) -> T {
+    subscript<T: __ReactorDirectWritable>(dynamicMember keyPath: ReferenceWritableKeyPath<State, T>) -> T {
         get { state[keyPath: keyPath] }
         set { state[keyPath: keyPath] = newValue }
     }
