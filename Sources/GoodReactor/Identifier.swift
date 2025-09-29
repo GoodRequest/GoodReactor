@@ -32,3 +32,7 @@ public final class CodeLocationIdentifier: Identifier {
     }
 
 }
+
+// MARK: - Event identifier
+
+internal final class EventIdentifier: Identifier, Sendable {}

@@ -355,14 +355,18 @@ public extension Reactor {
     /// and supply mutations using a ``Publisher`` and ``subscribe(to:map:)``
     @available(*, noasync) func run(_ event: Event, @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
         let semaphore = MapTables.eventLocks[key: event.id, default: AsyncSemaphore(value: 0)]
-        MapTables.runningEvents[key: self, default: []].insert(event.id)
+        MapTables.runningEvents[key: self, default: EventTaskCounter()].newTask(eventId: event.id)
 
         Task { @MainActor [weak self] in
             guard let self else { return }
 
             defer {
-                MapTables.runningEvents[key: self, default: []].remove(event.id)
-                semaphore.signal()
+                let remainingTasks = MapTables.runningEvents[key: self, default: EventTaskCounter()]
+                    .stopTask(eventId: event.id)
+
+                if remainingTasks < 1 {
+                    semaphore.signal()
+                }
             }
 
             let mutation = await Task.detached(operation: eventHandler()).value
@@ -507,7 +511,7 @@ private extension Reactor {
 
         _reduce(state: &state, event: event)
 
-        if MapTables.runningEvents[key: self, default: []].contains(eventId) {
+        if MapTables.runningEvents[key: self, default: EventTaskCounter()].tasksActive(forEvent: eventId) {
             try? await semaphore.waitUnlessCancelled()
         }
     }
