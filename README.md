@@ -4,19 +4,12 @@
 
 [Check out the Documentation](https://goodrequest.github.io/GoodReactor/documentation/goodreactor/)
 
-[![iOS Version](https://img.shields.io/badge/iOS_Version->=_12.0-brightgreen?logo=apple&logoColor=green)]() 
-[![Swift Version](https://img.shields.io/badge/Swift_Version-5.5-green?logo=swift)](https://docs.swift.org/swift-book/)
-[![Supported devices](https://img.shields.io/badge/Supported_Devices-iPhone/iPad-green)]()
-[![Contains Test](https://img.shields.io/badge/Tests-YES-blue)]()
+[![iOS Version](https://img.shields.io/badge/iOS_Version->=_13.0-brightgreen?logo=apple&logoColor=green)]() 
+[![Swift Version](https://img.shields.io/badge/Swift_Version-6.0-green?logo=swift)](https://docs.swift.org/swift-book/)
+[![Contains Test](https://img.shields.io/badge/Tests-69%25_coverage-blue)]()
 [![Dependency Manager](https://img.shields.io/badge/Dependency_Manager-SPM-red)](#swiftpackagemanager)
 
-GoodReactor is an adaptation of the Reactor framework that is Redux inspired.
-The view model communicates with the view controller via the State and with the Coordinator via the navigation function.
-You communicate to the viewModel via Actions
-Viewmodel changes state in the Reduce function
-Viewmodel interactes with dependencies outside of the Reduce function not to create side-effects
-
-Link to the original reactor kit: https://github.com/ReactorKit/ReactorKit
+TBD: updated description
 
 # Installation
 ## Swift Package Manager
@@ -30,7 +23,7 @@ import PackageDescription
 let package = Package(
     name: "SampleProject",
     dependencies: [
-        .package(url: "https://github.com/GoodRequest/GoodReactor" .upToNextMajor("2.0.0"))
+        .package(url: "https://github.com/GoodRequest/GoodReactor" .upToNextMajor("2.3.0"))
     ]
 )
 
@@ -38,7 +31,6 @@ let package = Package(
 
 # Usage
 ## GoodReactor
-
 ### ViewModel
 In your ViewModel define Actions, Mutations, Destinations and the State
 
@@ -140,7 +132,7 @@ var body: some View {
 You add the ViewModel as a property wrapper to your view:
 
 ```swift
-@ViewModel private var model = MyViewModel()
+@ViewModel var model: AnyReactor = MyViewModel().eraseToAnyReactor()
 ```
 
 To access the current `State` you use:
@@ -190,6 +182,20 @@ struct SampleLogger: ReactorLogger {
 }
 
 ReactorConfiguration.logger = SampleLogger()
+```
+
+## Previews
+You can easily mock state for Xcode Previews by using `Stub` reactor implementation:
+```swift
+#Preview("Empty") {
+    NavigationStack {
+        HomeScreen(viewModel: Stub<HomeScreenViewModel> {
+            let state = HomeScreenViewModel.State()
+            state.items = [] // use empty array to mock empty state
+            return state
+        }.eraseToAnyReactor())
+    }
+}
 ```
 
 # License
