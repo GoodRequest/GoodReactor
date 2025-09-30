@@ -184,7 +184,7 @@ struct SampleLogger: ReactorLogger {
 ReactorConfiguration.logger = SampleLogger()
 ```
 
-## Previews
+## Previews
 You can easily mock state for Xcode Previews by using `Stub` reactor implementation:
 ```swift
 #Preview("Empty") {
