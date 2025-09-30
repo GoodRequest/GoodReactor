@@ -32,8 +32,11 @@ final class EmptyObject {}
         case subtractOne
         case resetToZero
         case cascade
-        case multipleRun
+        case multipleRuns
+        case hundredRuns
+        case twiceHundredRuns
         case debounceTest
+        case setCounter(Int)
     }
 
     enum Mutation {
@@ -41,6 +44,7 @@ final class EmptyObject {}
         case didAddOne
         case didReceiveValue(newValue: Int)
         case didAddOneWithDelay
+        case doOneHalfOfTwoHundredRuns
     }
 
     // MARK: Destination
@@ -82,7 +86,7 @@ final class EmptyObject {}
             let oldValue = state.counter
             run(event) { await self.asyncAddOne(oldValue: oldValue) }
 
-        case .action(.multipleRun):
+        case .action(.multipleRuns):
             run(event) {
                 try? await Task.sleep(for: .seconds(1))
                 return .didAddOneWithDelay
@@ -94,16 +98,49 @@ final class EmptyObject {}
             run(event) {
                 try? await Task.sleep(for: .seconds(1))
                 return .didAddOneWithDelay
+            }
+            run(event) {
+                try? await Task.sleep(for: .seconds(1))
+                return .didAddOneWithDelay
+            }
+            run(event) {
+                try? await Task.sleep(for: .seconds(1))
+                return .didAddOneWithDelay
+            }
+
+        case .action(.hundredRuns):
+            for _ in 0..<100 {
+                run(event) {
+                    try? await Task.sleep(for: .seconds(1))
+                    return .didAddOneWithDelay
+                }
+            }
+
+        case .action(.twiceHundredRuns):
+            run(event) {
+                return .doOneHalfOfTwoHundredRuns
+            }
+            run(event) {
+                return .doOneHalfOfTwoHundredRuns
+            }
+
+        case .mutation(.doOneHalfOfTwoHundredRuns):
+            for _ in 0..<100 {
+                run(event) {
+                    try? await Task.sleep(for: .seconds(1))
+                    return .didAddOneWithDelay
+                }
             }
 
         case .action(.debounceTest):
             let counterValue = state.counter
 
-            print("debounce action started")
             debounce(duration: .milliseconds(500)) {
-                print("running debounced function")
                 return await self.asyncAddOne(oldValue: counterValue)
             }
+
+        case .action(.setCounter(let newValue)):
+            state.counter = newValue
 
         case .mutation(.didAddOne):
             state.counter += 1
