@@ -47,14 +47,14 @@ struct EventTaskCounter: Sendable {
     /// Increments task counter for provided event
     /// - Parameter identifier: Event starting a new task
     mutating func newTask(eventId identifier: EventIdentifier) {
-        events[identifier] = (events[identifier] ?? 0) + 1
+        events[identifier] = events[identifier, default: 0] + 1
     }
     
     /// Decrements task counter for provided event
     /// - Parameter identifier: Event stopping the task
     /// - Returns: Number of remaining tasks
     mutating func stopTask(eventId identifier: EventIdentifier) -> Int {
-        let taskCount = events[identifier] ?? 0
+        let taskCount = events[identifier, default: 0]
         let newTaskCount = taskCount - 1
 
         events[identifier] = newTaskCount

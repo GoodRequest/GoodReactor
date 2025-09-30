@@ -7,6 +7,9 @@
 
 import Observation
 
+/// Stub is a ``Reactor`` implementation adjusted for use in Xcode previews
+/// to mock different states of the UI. Stub resolves the state at initialization and
+/// supports small changes to state in its `reducer`.
 @available(iOS 17.0, macOS 14.0, *)
 @Observable public final class Stub<R: Reactor>: Reactor {
 
@@ -29,7 +32,11 @@ import Observation
     public func reduce(state: inout R.State, event: Event) {
         reducer?(&state, event)
     }
-
+    
+    /// Initializes a Stub ``Reactor`` with state and a simple reducer.
+    /// - Parameters:
+    ///   - supplier: Closure supplying initial mocked state
+    ///   - reducer: Closure reducing small changes to mocked state
     public init(
         supplier: @escaping (() -> (R.State)),
         reducer: ((inout R.State, Event) -> ())? = nil
