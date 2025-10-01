@@ -98,6 +98,10 @@ public extension AnyReactor {
         }
     }
 
+    var state: State {
+        _box.state
+    }
+
     func reduce(state: inout WrappedState, event: Event<Action, Mutation, Destination>) {
         _box.reduceAny(state: &state, event: event)
     }
