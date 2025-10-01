@@ -6,7 +6,7 @@
 
 [![iOS Version](https://img.shields.io/badge/iOS_Version->=_13.0-brightgreen?logo=apple&logoColor=green)]() 
 [![Swift Version](https://img.shields.io/badge/Swift_Version-6.0-green?logo=swift)](https://docs.swift.org/swift-book/)
-[![Contains Test](https://img.shields.io/badge/Tests-69%25_coverage-blue)]()
+[![Contains Test](https://img.shields.io/badge/Tests-83%25_coverage-blue)]()
 [![Dependency Manager](https://img.shields.io/badge/Dependency_Manager-SPM-red)](#swiftpackagemanager)
 
 TBD: updated description

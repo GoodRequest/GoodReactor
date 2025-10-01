@@ -599,14 +599,3 @@ public extension Reactor {
     }
 
 }
-
-// MARK: - Migration
-
-public extension Reactor {
-
-    @available(*, deprecated, message: "Call members directly from Reactor instead of using `currentState` property.")
-    var currentState: State {
-        state
-    }
-
-}
