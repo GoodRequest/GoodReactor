@@ -1,42 +1,14 @@
 //
-//  Event.swift
+//  EventTaskCounter.swift
 //  GoodReactor
 //
-//  Created by Filip Šašala on 27/08/2024.
+//  Created by Filip Šašala on 01/10/2025.
 //
 
-import Foundation
-
-// MARK: - Event
-
-public final class Event<A, M, D>: Sendable where A: Sendable, M: Sendable, D: Sendable {
-
-    public enum Kind: Sendable {
-        case action(A)
-        case mutation(M)
-        case destination(D?)
-    }
-
-    internal let id: EventIdentifier
-    public let kind: Event.Kind
-
-    internal init(kind: Event.Kind) {
-        self.id = EventIdentifier()
-        self.kind = kind
-    }
-
-    convenience public init(destination: D?) {
-        self.init(kind: .destination(destination))
-    }
-
-}
-
-// MARK: - Event task counter
-
-struct EventTaskCounter: Sendable {
+internal struct EventTaskCounter: Sendable {
 
     var events: [EventIdentifier: Int] = [:]
-    
+
     /// Checks if any tasks are running for provided event
     /// - Parameter identifier: Event to check
     /// - Returns: `true` if any tasks are running, `false` otherwise
