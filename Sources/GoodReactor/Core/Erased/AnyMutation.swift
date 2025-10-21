@@ -1,5 +1,5 @@
 //
-//  Mutation.swift
+//  AnyMutation.swift
 //  GoodReactor
 //
 //  Created by Filip Šašala on 01/10/2025.

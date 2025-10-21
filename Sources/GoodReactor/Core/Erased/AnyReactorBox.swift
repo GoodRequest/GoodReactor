@@ -50,7 +50,7 @@
     func reduceAny(state: inout Base.State, event: Event<Base.Action, AnyMutation, Base.Destination>) {
         let concreteEvent = event.castMutation { anyMutation in
             guard let concreteMutation = anyMutation.as(Base.Mutation.self) else {
-                fatalError("Unexpected mutation type: \(type(of: anyMutation)), expected \(Base.Mutation.self)")
+                fatalError("Unexpected mutation type: \(type(of: anyMutation.enum)), expected \(Base.Mutation.self)")
             }
             return concreteMutation
         }

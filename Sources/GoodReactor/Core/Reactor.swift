@@ -349,8 +349,10 @@ public extension Reactor {
     ///
     /// - important: Start async events only from ``reduce(state:event:)`` to ensure correct behaviour.
     /// - warning: This function is unavailable from asynchronous contexts. If you need to run multiple tasks
-    /// concurrently, create a `TaskGroup` with ``_Concurrency/Task``s, use `async let` or consider using
+    /// *concurrently*, create a `TaskGroup` with ``_Concurrency/Task``s, use `async let` or consider using
     /// an external helper struct.
+    /// - note: You can start multiple asynchronous blocks under a single `event`. Ordering of operations is
+    /// undefined and not guaranteed.
     /// - note: If you need to return multiple mutations from an asynchronous event, create a helper struct
     /// and supply mutations using a ``Publisher`` and ``subscribe(to:map:)``
     @available(*, noasync) func run(_ event: Event, @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async -> Mutation?) {
@@ -382,7 +384,51 @@ public extension Reactor {
             }
         }
     }
-    
+
+    @available(*, noasync) public func fetch<T: Sendable, E: Error>(
+        _ event: Event,
+        _ data: ReferenceWritableKeyPath<State, DataFetchingState<T, E>>,
+        @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async throws(E) -> T
+    ) {
+        let semaphore = MapTables.eventLocks[key: event.id, default: AsyncSemaphore(value: 0)]
+        MapTables.runningEvents[key: self, default: EventTaskCounter()].newTask(eventId: event.id)
+        state[keyPath: data] = DataFetchingState<T, E>.loading
+
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            defer {
+                let remainingTasks = MapTables.runningEvents[key: self, default: EventTaskCounter()]
+                    .stopTask(eventId: event.id)
+
+                if remainingTasks < 1 {
+                    semaphore.signal()
+                }
+            }
+
+            let result = await Task.detached(operation: eventHandler()).result
+
+            guard !Task.isCancelled else {
+                _debugLog(message: "Task cancelled")
+                state[keyPath: data] = DataFetchingState<T, E>.idle
+                return
+            }
+
+            switch result {
+            case .success(let value):
+                state[keyPath: data] = DataFetchingState<T, E>.success(value)
+
+            case .failure(let anyError):
+                if let error = anyError as? E {
+                    state[keyPath: data] = DataFetchingState<T, E>.failure(error)
+                } else {
+                    // TODO: typed handling of thrown error
+                    state[keyPath: data] = DataFetchingState<T, E>.idle
+                }
+            }
+        }
+    }
+
     /// Debounces calls to a function by ignoring repeated successive calls. If handler returns a mutation,
     /// the mutation will be executed once when debouncing is
     ///
