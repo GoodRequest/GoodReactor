@@ -385,14 +385,65 @@ public extension Reactor {
         }
     }
 
-    @available(*, noasync) public func fetch<T: Sendable, E: Error>(
+    @_spi(ReactorExperimental) @available(*, noasync) func fetch<T: Sendable, E: Error>(
+        _ event: Event,
+        updating data: ReferenceWritableKeyPath<State, DataFetchingState<T, E>>,
+        @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async throws(E) -> T
+    ) {
+        fetch(event, data, updating: true, eventHandler: eventHandler())
+    }
+
+    /// Starts an asynchronous operation associated with an event and writes result
+    /// into a ``DataFetchingState`` value in this reactor's state.
+    ///
+    /// On call, the referenced fetching state is set to `.loading`. Once the task
+    /// completes, it is set to `.success(value)` on success or `.failure(error)`
+    /// on failure. If the task is cancelled, the state is reset to `.idle`.
+    ///
+    /// ## Usage
+    /// ```swift
+    /// func reduce(state: inout State, event: Event) {
+    ///     switch event.kind {
+    ///     case .action(.reload):
+    ///         fetch(event, \.profile) {
+    ///             try await profileService.fetchProfile()
+    ///         }
+    ///
+    ///     default:
+    ///         break
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - event: Event responsible for starting the asynchronous task.
+    ///   - data: Key path to the ``DataFetchingState`` that should be updated.
+    ///   - eventHandler: Asynchronous fetch closure returning fetched value or throwing an error.
+    ///
+    /// This function doesn't block.
+    ///
+    /// - important: Start fetches only from ``reduce(state:event:)`` to ensure correct behaviour.
+    /// - warning: This function is unavailable from asynchronous contexts.
+    @available(*, noasync) func fetch<T: Sendable, E: Error>(
         _ event: Event,
         _ data: ReferenceWritableKeyPath<State, DataFetchingState<T, E>>,
         @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async throws(E) -> T
     ) {
+        fetch(event, data, updating: false, eventHandler: eventHandler())
+    }
+
+    @_spi(ReactorExperimental) @available(*, noasync) func fetch<T: Sendable, E: Error>(
+        _ event: Event,
+        _ data: ReferenceWritableKeyPath<State, DataFetchingState<T, E>>,
+        updating: Bool,
+        @_implicitSelfCapture eventHandler: @autoclosure @escaping () -> @Sendable () async throws(E) -> T
+    ) {
         let semaphore = MapTables.eventLocks[key: event.id, default: AsyncSemaphore(value: 0)]
         MapTables.runningEvents[key: self, default: EventTaskCounter()].newTask(eventId: event.id)
-        state[keyPath: data] = DataFetchingState<T, E>.loading
+
+        if !updating {
+            state[keyPath: data] = DataFetchingState<T, E>.loading
+        }
 
         Task { @MainActor [weak self] in
             guard let self else { return }
