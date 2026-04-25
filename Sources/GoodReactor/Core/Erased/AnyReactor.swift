@@ -25,7 +25,8 @@ import SwiftUI
 ///
 /// Behavior:
 /// - State is accessed dynamically and mutated by reducing events on a concrete underlying reactor.
-/// - Lifecycle: external subscriptions start automatically when `AnyReactor` is initialized (by `start()`-ing the base reactor).
+/// - Lifecycle: `AnyReactor` does not automatically start the wrapped reactor.
+///   Call `start()` explicitly to initialize external subscriptions.
 /// - Events from `send(action:)`, `send(action:) async`, and `send(destination:)` are forwarded to the base reactor.
 ///
 /// Example:
@@ -58,9 +59,11 @@ import SwiftUI
 
     // MARK: - Initialization
 
+    /// Creates a type-erased wrapper around `base`.
+    ///
+    /// - note: This initializer does not call `start()` on `base`.
     public init<R: Reactor>(_ base: R) where R.Action == Action, R.Destination == Destination, R.State == State {
         self._box = AnyReactorBox(base)
-        base.start()
     }
 
 }
@@ -151,4 +154,3 @@ public extension Reactor {
     }
 
 }
-

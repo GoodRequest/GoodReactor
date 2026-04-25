@@ -135,6 +135,12 @@ You add the ViewModel as a property wrapper to your view:
 @ViewModel var model: AnyReactor = MyViewModel().eraseToAnyReactor()
 ```
 
+`AnyReactor` does not start the wrapped reactor automatically. Start it explicitly:
+
+```swift
+.task { model.start() }
+```
+
 To access the current `State` you use:
 
 ```swift
@@ -200,4 +206,3 @@ You can easily mock state for Xcode Previews by using `Stub` reactor implementat
 
 # License
 GoodReactor repository is released under the MIT license. See [LICENSE](LICENSE.md) for details.
-
