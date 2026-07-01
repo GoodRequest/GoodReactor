@@ -21,6 +21,12 @@ final class EmptyObject {}
         } map: {
             Mutation.didChangeTime(seconds: $0)
         }
+
+        subscribe {
+            await ManualEventPublisher.shared.eventPublisher
+        } map: {
+            Mutation.didReceiveManualEvent(value: $0)
+        }
     }
 
     typealias Event = GoodReactor.Event<Action, Mutation, Destination>
@@ -45,6 +51,7 @@ final class EmptyObject {}
         case didReceiveValue(newValue: Int)
         case didAddOneWithDelay
         case doOneHalfOfTwoHundredRuns
+        case didReceiveManualEvent(value: Int)
     }
 
     // MARK: Destination
@@ -60,6 +67,7 @@ final class EmptyObject {}
         var counter: Int = 9
         var time: Int = 0
         var object: AnyObject = EmptyObject()
+        var manualEventsCount: Int = 0
 
     }
 
@@ -158,6 +166,9 @@ final class EmptyObject {}
 
         case .mutation(.didChangeTime(let seconds)):
             state.time = seconds
+
+        case .mutation(.didReceiveManualEvent(let value)):
+            state.manualEventsCount += value
 
         case .destination:
             break
