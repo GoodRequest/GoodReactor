@@ -140,4 +140,28 @@ final class GoodReactorTests: XCTestCase {
         XCTAssertEqual(binding.wrappedValue, 21)
     }
 
+    @MainActor func testReactorStartIdempontency() async {
+        let model = ObservableModel()
+
+        XCTAssertEqual(model.manualEventsCount, 0)
+
+        model.start()
+        
+        try? await Task.sleep(for: .milliseconds(100)) // subscriptions start asynchronously
+        await ManualEventPublisher.shared.eventPublisher.send(1)
+        try? await Task.sleep(for: .milliseconds(100)) // events are sent asynchronously
+
+        XCTAssertEqual(model.manualEventsCount, 1)
+
+        model.start()
+        model.start()
+        model.start()
+
+        try? await Task.sleep(for: .milliseconds(100)) // subscriptions start asynchronously
+        await ManualEventPublisher.shared.eventPublisher.send(1)
+        try? await Task.sleep(for: .milliseconds(100)) // events are sent asynchronously
+
+        XCTAssertEqual(model.manualEventsCount, 2)
+    }
+
 }

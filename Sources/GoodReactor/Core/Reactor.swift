@@ -155,6 +155,9 @@ import SwiftUI
     /// of the reactor.
     ///
     /// You can use multiple subscriptions to multiple external events.
+    ///
+    /// - important: Keep this function free of side effects, except calls to
+    /// ``subscribe(to:map:)``. This function may be invoked multiple times.
     func transform()
 
     #if canImport(Combine)
@@ -329,6 +332,11 @@ public extension Reactor {
     /// uses Combine, subscribes the event stream and publishes the
     /// initial state.
     func start() {
+        let hasSubscriptions = MapTables.subscriptions.value(forKey: self)?.isEmpty == false
+        guard !hasSubscriptions else {
+            return
+        }
+
         self.transform()
 
         #if canImport(Combine)
