@@ -15,6 +15,8 @@ final class EmptyObject {}
 @available(iOS 17.0, *)
 @Observable final class ObservableModel: Reactor {
 
+    @ObservationIgnored let manualEventPublisher = PassthroughPublisher<Int>()
+
     func transform() {
         subscribe {
             await ExternalTimer.shared.timePublisher
@@ -22,8 +24,11 @@ final class EmptyObject {}
             Mutation.didChangeTime(seconds: $0)
         }
 
+        // captured as a local so the subscription task does not retain self
+        let manualEventPublisher = self.manualEventPublisher
+
         subscribe {
-            await ManualEventPublisher.shared.eventPublisher
+            manualEventPublisher
         } map: {
             Mutation.didReceiveManualEvent(value: $0)
         }

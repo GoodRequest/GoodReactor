@@ -22,7 +22,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CombineCommunity/CombineExt.git", from: "1.8.1"),
         .package(url: "https://github.com/apple/swift-async-algorithms.git", .upToNextMajor(from: "1.0.0")),
-        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3"))
+        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3")),
+        .package(url: "https://github.com/swiftlang/swift-docc-plugin.git", from: "1.4.0")
     ],
     targets: [
         .target(
