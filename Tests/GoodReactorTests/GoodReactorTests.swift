@@ -117,15 +117,17 @@ final class GoodReactorTests: XCTestCase {
         XCTAssertEqual(model.counter, 9)
 
         for _ in 0..<10 {
-            await model.send(action: .debounceTest) // send event 10x in a second
-            try? await Task.sleep(for: .milliseconds(100))
+            await model.send(action: .debounceTest) // all sends fall within the 500 ms debounce window
         }
 
         XCTAssertEqual(model.counter, 9) // event should be waiting in debouncer
 
+        await waitUntil("Debounced event did not fire") { model.counter == 10 }
+
+        // negative check: give any spurious extra debounce fires time to land
         try? await Task.sleep(for: .seconds(1))
 
-        XCTAssertEqual(model.counter, 10) // event should be debounced by now
+        XCTAssertEqual(model.counter, 10, "Debounced event fired more than once")
     }
 
     @MainActor func testBinding() {
@@ -142,26 +144,35 @@ final class GoodReactorTests: XCTestCase {
 
     @MainActor func testReactorStartIdempontency() async {
         let model = ObservableModel()
+        let publisher = model.manualEventPublisher
 
         XCTAssertEqual(model.manualEventsCount, 0)
 
         model.start()
-        
-        try? await Task.sleep(for: .milliseconds(100)) // subscriptions start asynchronously
-        await ManualEventPublisher.shared.eventPublisher.send(1)
-        try? await Task.sleep(for: .milliseconds(100)) // events are sent asynchronously
 
-        XCTAssertEqual(model.manualEventsCount, 1)
+        await waitUntil("Subscription was not created after start()") {
+            await publisher.activeSubscriberCount == 1
+        }
+
+        let subscriptionCount = MapTables.subscriptions.value(forKey: model)?.count ?? 0
+        XCTAssertGreaterThan(subscriptionCount, 0)
 
         model.start()
         model.start()
         model.start()
 
-        try? await Task.sleep(for: .milliseconds(100)) // subscriptions start asynchronously
-        await ManualEventPublisher.shared.eventPublisher.send(1)
-        try? await Task.sleep(for: .milliseconds(100)) // events are sent asynchronously
+        // subscription tasks are registered synchronously in start(),
+        // so duplicates would be visible immediately
+        XCTAssertEqual(MapTables.subscriptions.value(forKey: model)?.count, subscriptionCount)
 
-        XCTAssertEqual(model.manualEventsCount, 2)
+        await publisher.send(1)
+        await waitUntil("Manual event was not delivered") { model.manualEventsCount == 1 }
+
+        await publisher.send(1)
+        await waitUntil("Manual event was not delivered") { model.manualEventsCount == 2 }
+
+        let subscriberCount = await publisher.activeSubscriberCount
+        XCTAssertEqual(subscriberCount, 1, "Duplicate subscriptions were created")
     }
 
 }
